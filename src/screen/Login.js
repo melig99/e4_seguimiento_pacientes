@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
-import React from 'react';
+import * as React from 'react';
 import BotonLogin from '../componentes/BotonLogin'
 
-export default function Login() {
+export default function Login({navigation}) {
   return (
     <View style={styles.container}>
         <Text style={styles.titulo}>INICIO SESION</Text>
@@ -11,7 +11,7 @@ export default function Login() {
         <TextInput placeholder="jhon@mail.com" style={styles.textInput}/>
         <TextInput placeholder="contraseña" style={styles.textInput}/>
         <Text/>
-        <BotonLogin/>
+        <BotonLogin evento={() =>navigation.reset({index: 0,routes: [{ name: 'Home' }],})}/>
         <StatusBar style="auto" />
     </View>
   );
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     titulo: {
         fontSize: 50,
         color: '#34434D',
-        fontWeight: 'bold', 
+        fontWeight: 'bold',
     },
     subTitulo: {
         fontSize: 20,

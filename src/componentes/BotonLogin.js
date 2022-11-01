@@ -2,10 +2,10 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function BotonLogin (){
+export default function BotonLogin ({evento}){
     return(
-        <TouchableOpacity style={styles.container}>
-             <LinearGradient 
+        <TouchableOpacity style={styles.container} onPress={evento}>
+             <LinearGradient
                     colors={['#FFB677', '#FF3CBD']}
                     start={{x:1, y:0}}
                     end={{x:0, y:1}}

@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen,
     Pacientes,
     Turnos,
-    FichaClinica
+    FichaClinica,
     Login
 } from './src/screen';
 
@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName="HomeScreen" >
+        <Stack.Navigator initialRouteName="Login" >
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Paciente" component={Pacientes} />
             <Stack.Screen name="Login" component={Login} />
