@@ -11,6 +11,7 @@ export default function HomeScreen({navigation}) {
             <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'Paciente' }],})} > Paciente</Boton>
             <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'Turnos' }],})} > Turnos</Boton>
             <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'FichaClinica' }],})} > FichaClinica</Boton>
+            <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'Login' }],})} > Salir</Boton>
         </View>
     );
 }
