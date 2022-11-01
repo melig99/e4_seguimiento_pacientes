@@ -1,19 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import React from 'react';
+import BotonLogin from '../componentes/BotonLogin'
 
-export default function App() {
+export default function Login() {
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Hello</Text>
-      <Text style={styles.subTitulo}>Sign In to you account</Text>
-      <TextInput>
-            placeholder="jhon@mail.com"
-      </TextInput>
-      <TextInput>
-            placeholder="password"
-      </TextInput>
-      <StatusBar style="auto" />
+        <Text style={styles.titulo}>INICIO SESION</Text>
+        <Text style={styles.subTitulo}>Inicie sesión en su cuenta</Text>
+        <TextInput placeholder="jhon@mail.com" style={styles.textInput}/>
+        <TextInput placeholder="contraseña" style={styles.textInput}/>
+        <Text/>
+        <BotonLogin/>
+        <StatusBar style="auto" />
     </View>
   );
 }
@@ -21,17 +20,28 @@ export default function App() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#f1f1f1',
         alignItems: 'center',
         justifyContent: 'center',
     },
-    titulo{
-        fontSide: 80,
-        color: '#000',
-        fontWeight: 'blond' 
+    titulo: {
+        fontSize: 50,
+        color: '#34434D',
+        fontWeight: 'bold', 
     },
-    subTitulo{
-        fontSide: 30,
+    subTitulo: {
+        fontSize: 20,
         color: 'gray',
     },
+    textInput: {
+        padding: 10,
+        paddingStart: 30,
+        width: '80%',
+        height: 50,
+        marginTop: 20,
+        borderRadius: 30,
+        backgroundColor: 'white',
+
+    },
+
 });
