@@ -1,20 +1,21 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Button as PaperButton } from 'react-native-paper'
-import { theme } from '../core/theme'
+import { tema } from '../tema/tema'
 
-export default function Button({ mode, style, ...props }) {
+export function Boton({ mode, style, ...props }) {
   return (
-    <PaperButton
-      style={[
-        styles.button,
-        mode === 'outlined' && { backgroundColor: theme.colors.surface },
-        style,
-      ]}
-      labelStyle={styles.text}
-      mode={mode}
-      {...props}
-    />
+      <PaperButton
+        style={[
+          styles.button,
+          mode === 'outlined' && { backgroundColor: tema.colors.surface },
+          mode === 'contained' && { backgroundColor: tema.colors.primario },
+          style,
+        ]}
+        labelStyle={styles.text}
+        mode={mode}
+        {...props}
+      />
   )
 }
 
