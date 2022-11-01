@@ -6,7 +6,7 @@ export default function BotonLogin ({evento}){
     return(
         <TouchableOpacity onPress={evento}>
             <Button title="Ingresar"
-                color={tema.colors.primario}/>
+                color={tema.colors.primario} onPress={evento}/>
         </TouchableOpacity>
     );
 
