@@ -2,14 +2,15 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import * as React from 'react';
 import BotonLogin from '../componentes/BotonLogin'
+import CampoTexto from '../componentes/CampoTexto';
 
 export default function Login({navigation}) {
   return (
     <View style={styles.container}>
         <Text style={styles.titulo}>INICIO SESION</Text>
         <Text style={styles.subTitulo}>Inicie sesión en su cuenta</Text>
-        <TextInput placeholder="jhon@mail.com" style={styles.textInput}/>
-        <TextInput placeholder="contraseña" style={styles.textInput}/>
+        <CampoTexto etiqueta="jhon@mail.com"></CampoTexto>
+        <CampoTexto etiqueta="Aqui va su contraseña"></CampoTexto>
         <Text/>
         <BotonLogin evento={() =>navigation.reset({index: 0,routes: [{ name: 'Home' }],})}/>
         <StatusBar style="auto" />
@@ -20,28 +21,20 @@ export default function Login({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f1f1f1',
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#0d1117',
     },
     titulo: {
         fontSize: 50,
-        color: '#34434D',
+        color: 'white',
         fontWeight: 'bold',
     },
     subTitulo: {
         fontSize: 20,
-        color: 'gray',
-    },
-    textInput: {
-        padding: 10,
-        paddingStart: 30,
-        width: '80%',
-        height: 50,
-        marginTop: 20,
-        borderRadius: 30,
-        backgroundColor: 'white',
-
+        color: 'white',
+        textDecorationLine: 'underline',
+        fontStyle: 'italic',
     },
 
 });
