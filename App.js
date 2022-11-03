@@ -15,13 +15,13 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login" >
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Paciente" component={Pacientes} />
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Turnos" component={Turnos} />
-            <Stack.Screen name="FichaClinica" component={FichaClinica} />
-        </Stack.Navigator>
+      <Stack.Navigator initialRouteName="Login" >
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Paciente" component={Pacientes} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Turnos" component={Turnos} />
+        <Stack.Screen name="FichaClinica" component={FichaClinica} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

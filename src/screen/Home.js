@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
-import { Boton } from '../componentes/Boton.js';
 import { tema } from '../tema/tema'
+import { Boton } from '../componentes';
 
 export default function HomeScreen({navigation}) {
 

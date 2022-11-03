@@ -1,64 +1,64 @@
 import * as React from 'react';
-import { View, Text, ScrollView, TextInput, StyleSheet } from 'react-native';
-import { Boton } from '../componentes/Boton.js';
-import CampoTexto from '../componentes/CampoTexto';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { tema } from '../tema/tema'
+import { CampoItem,
+  CampoSubTitulo,
+  CampoTexto,
+  CampoTitulo,
+  Boton,
+} from '../componentes';
+import { TextInput } from 'react-native-paper';
+
+
 
 
 export default function FichaClinica({navigation}) {
   return (
-    <View style={{backgroundColor: tema.fondo.color}}>
-      <Text style={styles.titulo}>Ficha Clinica</Text>
+    <View style={{flex:1, backgroundColor: tema.fondo.color}}>
+      <CampoTitulo valor="Ficha Clinica"/>
       <Text/>
       <ScrollView style={styles.container}>
-        <Text style={styles.subTitulo}>Registro de una Ficha Clinica</Text>
+        <CampoSubTitulo valor="Registro de una Ficha Clinica"/>
         <Text/>
-        <Text style={styles.itemTitulo}>Motivo de Consulta</Text>
+        <CampoItem valor="Motivo de Consulta"/>
         <CampoTexto etiqueta='Ingrese el motivo de su consulta'/>
         <Text/>
-        <Text style={styles.itemTitulo}>Diagnostico</Text>
+        <CampoItem valor="Diagnostico"/>
         <CampoTexto etiqueta='Ingrese el diagnostico'/>
         <Text/>
-        <Text style={styles.itemTitulo}>Obeservacion</Text>
-        <CampoTexto etiqueta='Ingrese alguna observacion extra'/>
+        <CampoItem valor="Obeservacion"/>
+        <TextInput placeholder='Escriba alguna observacion extra' style={styles.observacion}/>
         <Text/>
-        <Text style={styles.itemTitulo}>Doctor Encargado</Text>
+        <CampoItem valor="Doctor Encargado"/>
         <CampoTexto etiqueta='Dr. Encargado'/>
         <Text/>
-        <Text style={styles.itemTitulo}>Cliente</Text>
+        <CampoItem valor="Cliente"/>
         <CampoTexto etiqueta='Paciente'/>
         <Text/>
-        <Text style={styles.itemTitulo}>Producto</Text>
+        <CampoItem valor="Producto"/>
         <CampoTexto etiqueta='Tipo de estudios'/>
-        <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'Home' }],})} > Registrar</Boton>
+        <Text/>
+        <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'Home' }],})} > Registrar</Boton> 
         <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'Home' }],})} > Volver</Boton>
       </ScrollView>
+
     </View>
      
   );
 }
 
 const styles = StyleSheet.create({
-  titulo: {
-    fontSize: 35,
-    color: 'white',
-    fontWeight: 'bold',
-    paddingLeft: 100,
-    marginTop: 8,
-  },
-  itemTitulo: {
-    fontSize: 15,
-    color: 'white',
-    
-  },
   container:{
     paddingLeft: 10,
   },
-  subTitulo: {
-    fontSize: 20,
-    color: 'white',
-    fontWeight: 'bold',
-    textDecorationLine: 'underline',
-    fontStyle: 'italic',
+  observacion: {
+    height: 50,
+    padding: 10,
+    paddingStart: 30,
+    width: '80%',
+    height: 50,
+    marginTop: 20,
+    borderRadius: 10,
+    backgroundColor: 'white',
   }
 });
