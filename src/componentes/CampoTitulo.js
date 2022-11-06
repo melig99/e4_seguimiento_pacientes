@@ -10,11 +10,11 @@ export default function CampoTitulo({ valor }) {
 }
 
 const styles = StyleSheet.create({
-    titulo: {
-        fontSize: 35,
-        color: 'white',
-        fontWeight: 'bold',
-        paddingLeft: 100,
-        marginTop: 8,
-    },
+  titulo: {
+      fontSize: 35,
+      color: 'white',
+      fontWeight: 'bold',
+      paddingLeft: 100,
+      marginTop: 8,
+  },
 });

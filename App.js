@@ -16,11 +16,16 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login" >
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Paciente" component={Pacientes} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Turnos" component={Turnos} />
-        <Stack.Screen name="FichaClinica" component={FichaClinica} />
+        <Stack.Screen name="Home" component={HomeScreen} 
+        options={{headerShown: false}}/>
+        <Stack.Screen name="Paciente" component={Pacientes} 
+        options={{headerShown: false}}/>
+        <Stack.Screen name="Login" component={Login} 
+          options={{headerShown: false}}/>
+        <Stack.Screen name="Turnos" component={Turnos} 
+        options={{headerShown: false}}/>
+        <Stack.Screen name="FichaClinica" component={FichaClinica}
+        options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -28,11 +33,4 @@ function App() {
 
 export default App;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
