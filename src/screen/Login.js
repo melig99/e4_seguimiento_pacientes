@@ -13,11 +13,11 @@ export default function Login({navigation}) {
         console.log(`{"soloUsuariosDelSistema":true,"usuarioLogin":"${usuario}"}`)
         const resp =  await peticionesGet('persona',{"ejemplo":`{"soloUsuariosDelSistema":true,"usuarioLogin":"${usuario}"}`});
         console.log(resp)
-        if(resp.cod ==0){
+        if(resp.cod ==0 && resp.respuesta.lista.length === 1){
             console.log(resp.respuesta)
             navigation.reset({index: 0,routes: [{ name: 'Home' }],})
         }else{
-            console.log("Error")
+            console.error("Credenciales Invalidas")
         }
     }
 
