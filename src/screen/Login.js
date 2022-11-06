@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import React,{ useState } from 'react';
 import BotonLogin from '../componentes/BotonLogin'
+import CampoTexto from '../componentes/CampoTexto';
 import {peticionesGet} from '../core/peticiones'
 
 export default function Login({navigation}) {
@@ -37,28 +38,20 @@ export default function Login({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f1f1f1',
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#0d1117',
     },
     titulo: {
         fontSize: 50,
-        color: '#34434D',
+        color: 'white',
         fontWeight: 'bold',
     },
     subTitulo: {
         fontSize: 20,
-        color: 'gray',
-    },
-    textInput: {
-        padding: 10,
-        paddingStart: 30,
-        width: '80%',
-        height: 50,
-        marginTop: 20,
-        borderRadius: 30,
-        backgroundColor: 'white',
-
+        color: 'white',
+        textDecorationLine: 'underline',
+        fontStyle: 'italic',
     },
 
 });
