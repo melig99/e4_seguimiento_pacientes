@@ -53,5 +53,13 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline',
         fontStyle: 'italic',
     },
-
+    textInput: {
+      padding: 10,
+      paddingStart: 30,
+      width: '80%',
+      height: 50,
+      marginTop: 20,
+      borderRadius: 30,
+      backgroundColor: 'white',
+    },
 });
