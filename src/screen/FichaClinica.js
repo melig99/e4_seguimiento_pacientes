@@ -12,7 +12,7 @@ import { CampoItem,
 import { TextInput } from 'react-native-paper';
 
 export default function FichaClinica({navigation}) {
-  const [data, setData] = useState(tableData);
+  const [data, setData] = useState({});
   const [form,setForm] = useState(false);
   const [tabla,setTabla] = useState(false);
   const mostrarForm = (valor)=>{ setForm(valor)}
@@ -38,8 +38,8 @@ export default function FichaClinica({navigation}) {
       <Text/>
       <Boton mode="contained"  onPress ={ ()=>{mostrarForm(!form)}} > Nuevo Registro</Boton>
       <Boton mode="contained"  onPress ={ ()=>{mostrarTabla(!tabla)}} > Lista </Boton>
-      <ScrollView style={styles.container}>
-        {form && <View >
+      <ScrollView>
+        {form && <View  style={styles.container}>
           <CampoSubTitulo valor="Registro de una Ficha Clinica"/>
           <Text/>
           <CampoItem valor="Motivo de Consulta"/>
