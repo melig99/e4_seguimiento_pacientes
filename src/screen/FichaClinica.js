@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { tema } from '../tema/tema'
+import {peticionesGet} from '../core/peticiones'
 import { CampoItem,
   CampoSubTitulo,
   CampoTexto,
@@ -32,6 +33,19 @@ export default function FichaClinica({navigation}) {
   const mostrarForm = (valor)=>{ setForm(valor)}
   const mostrarTabla = (valor)=>{ setTabla(valor)}
 
+  const obtenerDatos = async ()=>{
+      let temp = await peticionesGet('fichaClinica',{});
+      const cabecera = ["Fecha","Motivo","Diagnositico","Observacion"];
+      let datos = temp.respuesta.lista.map( (fila)=> { return [fila.fechaHora,fila.motivoConsulta,fila.diagnostico,fila.observacion]});
+      setData({tableHead:cabecera,tableData:datos});
+  }
+  useEffect(
+      ()=>{
+          obtenerDatos()
+
+      },[]
+  )
+
 
   return (
     <View style={{flex:1, backgroundColor: tema.fondo.color}}>
@@ -62,7 +76,7 @@ export default function FichaClinica({navigation}) {
           <CampoTexto etiqueta='Tipo de estudios'/>
           <Boton mode="contained" >Guardar</Boton>
         </View>}
-        {tabla && <Tabla cabecera={tableData.tableHead} datos={tableData.tableData}/>}
+        {tabla && <Tabla cabecera={data.tableHead} datos={data.tableData}/>}
       </ScrollView>
       <Boton mode="contained" onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Home' }], })}> Volver</Boton>
     </View>

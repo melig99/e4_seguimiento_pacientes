@@ -15,11 +15,6 @@ const peticionesGet = async (endpoint,datos)=>{
     try {
 
         respuesta = await axios.request(options);
-        // .then(function (response) {
-        //     console.log(response.data);
-        // }).catch(function (error) {
-        //     console.error(error);
-        // });
         respuesta = await respuesta.data
         respuesta = {"cod":"0","respuesta":respuesta};
     } catch (e) {
