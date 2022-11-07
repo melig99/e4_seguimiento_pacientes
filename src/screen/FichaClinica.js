@@ -11,21 +11,6 @@ import { CampoItem,
 } from '../componentes';
 import { TextInput } from 'react-native-paper';
 
-
-
-const tableData = {
-    tableHead: ['Crypto Name', 'Value', 'Mkt Cap'],
-    tableData: [
-        ['Bitcoin', '$44,331', '$839,702,328,904'],
-        ['Ethereum', '$3000.9', '$359,080,563,225'],
-        ['Tether', '$1', '$79,470,820,738'],
-        ['BNB', '$413.44', '$69,446,144,361'],
-        ['USD Coin', '$1', '$53,633,260,549'],
-    ],
-};
-
-
-
 export default function FichaClinica({navigation}) {
   const [data, setData] = useState(tableData);
   const [form,setForm] = useState(false);
