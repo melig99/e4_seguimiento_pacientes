@@ -4,4 +4,5 @@ export { default as CampoSubTitulo } from '../componentes/CampoSubTitulo'
 export { default as CampoTexto } from '../componentes/CampoTexto'
 export { default as BotonLogin } from '../componentes/BotonLogin'
 export { default as Boton } from '../componentes/Boton'
+export { default as Tabla } from '../componentes/Tabla'
 
