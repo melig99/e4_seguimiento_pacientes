@@ -8,7 +8,7 @@ export default function Tabla({cabecera, datos}) {
   return (
 
     <View >
-        <Table borderStyle={{ borderWidth: 4, borderColor: 'teal' }}>
+        <Table borderStyle={styles.bordetabla}>
         <Row data={data.tableHead} style={styles.head} textStyle={styles.headText} />
         <Rows data={data.tableData} textStyle={styles.text} />
         </Table> 
@@ -17,21 +17,8 @@ export default function Tabla({cabecera, datos}) {
 }
 
 const styles = StyleSheet.create({
-  container:{
-    paddingLeft: 10,
-  },
-  observacion: {
-    height: 50,
-    padding: 10,
-    paddingStart: 30,
-    width: '80%',
-    height: 50,
-    marginTop: 20,
-    borderRadius: 10,
-    backgroundColor: 'white',
-  },
-  head: { height: 44, backgroundColor: 'darkblue' },
-  headText: { fontSize: 20, fontWeight: 'bold' , textAlign: 'center', color: 'white' },
-  text: { margin: 6, fontSize: 16, fontWeight: 'bold' , textAlign: 'center', color: 'white'},
-  textTabla:{ margin: 6}
+  bordetabla: { borderWidth: 2, borderColor: '#7B7D7D' },
+  head: { height: 44, backgroundColor: '#4D5656' },
+  headText: { fontSize: 18, fontWeight: 'bold' , textAlign: 'center', color: 'white' },
+  text: { margin: 6, fontSize: 14 , color: 'white'},
 });
