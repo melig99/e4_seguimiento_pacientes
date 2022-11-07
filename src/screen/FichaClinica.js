@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { tema } from '../tema/tema'
 import { CampoItem,
@@ -6,44 +6,66 @@ import { CampoItem,
   CampoTexto,
   CampoTitulo,
   Boton,
+  Tabla
 } from '../componentes';
 import { TextInput } from 'react-native-paper';
 
 
 
+const tableData = {
+    tableHead: ['Crypto Name', 'Value', 'Mkt Cap'],
+    tableData: [
+        ['Bitcoin', '$44,331', '$839,702,328,904'],
+        ['Ethereum', '$3000.9', '$359,080,563,225'],
+        ['Tether', '$1', '$79,470,820,738'],
+        ['BNB', '$413.44', '$69,446,144,361'],
+        ['USD Coin', '$1', '$53,633,260,549'],
+    ],
+};
+
+
 
 export default function FichaClinica({navigation}) {
+  const [data, setData] = useState(tableData);
+  const [form,setForm] = useState(false);
+  const [tabla,setTabla] = useState(false);
+  const mostrarForm = (valor)=>{ setForm(valor)}
+  const mostrarTabla = (valor)=>{ setTabla(valor)}
+
+
   return (
     <View style={{flex:1, backgroundColor: tema.fondo.color}}>
       <CampoTitulo valor="Ficha Clinica"/>
       <Text/>
+      <Boton mode="contained"  onPress ={ ()=>{mostrarForm(!form)}} > Nuevo Registro</Boton> 
+      <Boton mode="contained"  onPress ={ ()=>{mostrarTabla(!tabla)}} > Lista </Boton>
       <ScrollView style={styles.container}>
-        <CampoSubTitulo valor="Registro de una Ficha Clinica"/>
-        <Text/>
-        <CampoItem valor="Motivo de Consulta"/>
-        <CampoTexto etiqueta='Ingrese el motivo de su consulta'/>
-        <Text/>
-        <CampoItem valor="Diagnostico"/>
-        <CampoTexto etiqueta='Ingrese el diagnostico'/>
-        <Text/>
-        <CampoItem valor="Obeservacion"/>
-        <TextInput placeholder='Escriba alguna observacion extra' style={styles.observacion}/>
-        <Text/>
-        <CampoItem valor="Doctor Encargado"/>
-        <CampoTexto etiqueta='Dr. Encargado'/>
-        <Text/>
-        <CampoItem valor="Cliente"/>
-        <CampoTexto etiqueta='Paciente'/>
-        <Text/>
-        <CampoItem valor="Producto"/>
-        <CampoTexto etiqueta='Tipo de estudios'/>
-        <Text/>
-        <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'Home' }],})} > Registrar</Boton> 
-        <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'Home' }],})} > Volver</Boton>
+        {form && <View >
+          <CampoSubTitulo valor="Registro de una Ficha Clinica"/>
+          <Text/>
+          <CampoItem valor="Motivo de Consulta"/>
+          <CampoTexto etiqueta='Ingrese el motivo de su consulta'/>
+          <Text/>
+          <CampoItem valor="Diagnostico"/>
+          <CampoTexto etiqueta='Ingrese el diagnostico'/>
+          <Text/>
+          <CampoItem valor="Obeservacion"/>
+          <TextInput placeholder='Escriba alguna observacion extra' style={styles.observacion}/>
+          <Text/>
+          <CampoItem valor="Doctor Encargado"/>
+          <CampoTexto etiqueta='Dr. Encargado'/>
+          <Text/>
+          <CampoItem valor="Cliente"/>
+          <CampoTexto etiqueta='Paciente'/>
+          <Text/>
+          <CampoItem valor="Producto"/>
+          <CampoTexto etiqueta='Tipo de estudios'/>
+          <Boton mode="contained" >Guardar</Boton>
+        </View>}
+        {tabla && <Tabla cabecera={tableData.tableHead} datos={tableData.tableData}/>}
       </ScrollView>
-
+      <Boton mode="contained" onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Home' }], })}> Volver</Boton>
     </View>
-     
   );
 }
 

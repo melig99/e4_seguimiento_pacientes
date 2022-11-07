@@ -2,7 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import React,{ useState } from 'react';
 import BotonLogin from '../componentes/BotonLogin'
-import CampoTexto from '../componentes/CampoTexto';
 import {peticionesGet} from '../core/peticiones'
 
 export default function Login({navigation}) {
