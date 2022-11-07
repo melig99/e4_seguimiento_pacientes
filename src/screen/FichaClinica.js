@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { tema } from '../tema/tema'
+import {peticionesGet} from '../core/peticiones'
 import { CampoItem,
   CampoSubTitulo,
   CampoTexto,
@@ -32,12 +33,25 @@ export default function FichaClinica({navigation}) {
   const mostrarForm = (valor)=>{ setForm(valor)}
   const mostrarTabla = (valor)=>{ setTabla(valor)}
 
+  const obtenerDatos = async ()=>{
+      let temp = await peticionesGet('fichaClinica',{});
+      const cabecera = ["Fecha","Motivo","Diagnositico","Observacion"];
+      let datos = temp.respuesta.lista.map( (fila)=> { return [fila.fechaHora,fila.motivoConsulta,fila.diagnostico,fila.observacion]});
+      setData({tableHead:cabecera,tableData:datos});
+  }
+  useEffect(
+      ()=>{
+          obtenerDatos()
+
+      },[]
+  )
+
 
   return (
     <View style={{flex:1, backgroundColor: tema.fondo.color}}>
       <CampoTitulo valor="Ficha Clinica"/>
       <Text/>
-      <Boton mode="contained"  onPress ={ ()=>{mostrarForm(!form)}} > Nuevo Registro</Boton> 
+      <Boton mode="contained"  onPress ={ ()=>{mostrarForm(!form)}} > Nuevo Registro</Boton>
       <Boton mode="contained"  onPress ={ ()=>{mostrarTabla(!tabla)}} > Lista </Boton>
       <ScrollView style={styles.container}>
         {form && <View >
@@ -62,7 +76,7 @@ export default function FichaClinica({navigation}) {
           <CampoTexto etiqueta='Tipo de estudios'/>
           <Boton mode="contained" >Guardar</Boton>
         </View>}
-        {tabla && <Tabla cabecera={tableData.tableHead} datos={tableData.tableData}/>}
+        {tabla && <Tabla cabecera={data.tableHead} datos={data.tableData}/>}
       </ScrollView>
       <Boton mode="contained" onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Home' }], })}> Volver</Boton>
     </View>
@@ -70,17 +84,17 @@ export default function FichaClinica({navigation}) {
 }
 
 const styles = StyleSheet.create({
-  container:{
-    paddingLeft: 10,
-  },
-  observacion: {
-    height: 50,
-    padding: 10,
-    paddingStart: 30,
-    width: '80%',
-    height: 50,
-    marginTop: 20,
-    borderRadius: 10,
-    backgroundColor: 'white',
-  }
+    container:{
+        paddingLeft: 10,
+    },
+    observacion: {
+        height: 50,
+        padding: 10,
+        paddingStart: 30,
+        width: '80%',
+        height: 50,
+        marginTop: 20,
+        borderRadius: 10,
+        backgroundColor: 'white',
+    }
 });
