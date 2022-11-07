@@ -4,9 +4,10 @@ import { TextInput as Input } from 'react-native'
 import { Text as Texto } from 'react-native'
 
 
-export default function CampoTexto({ etiqueta }) {
+export default function CampoTexto(parametros) {
+    const valor = (typeof parametros.valor !== "undefined")?parametros.valor:"";
   return (
-    <Input placeholder={etiqueta} style={styles.textInput}/>
+    <Input placeholder={parametros.etiqueta} style={styles.textInput} onChange={(valor)=>{ if(typeof parametros.eventoChange !== "undefined"){parametros.eventoChange(valor)}}} value={valor}/>
   )
 }
 
