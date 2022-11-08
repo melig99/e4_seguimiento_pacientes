@@ -7,9 +7,10 @@ import { CampoItem,
   CampoTexto,
   CampoTitulo,
   Boton,
-  Tabla
+  Tabla,
+  Lista
 } from '../componentes';
-import { TextInput, SegmentedButtons,  Modal, Portal, Text, Button, Provider} from 'react-native-paper';
+import { TextInput, SegmentedButtons,  Modal, Portal, Button, Provider, Checkbox} from 'react-native-paper';
 
 export default function FichaClinica({navigation}) {
   const [data, setData] = useState({});
@@ -29,6 +30,11 @@ export default function FichaClinica({navigation}) {
   }
 
   const modalprueba = ["Fecha","Motivo","Diagnositico","Observacion"];
+  const [visible, setVisible] = useState(false);
+
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  const containerStyle = {backgroundColor: 'white', padding: 20};
 
   const obtenerDatos = async ()=>{
       let temp = await peticionesGet('fichaClinica',{});
@@ -82,14 +88,38 @@ export default function FichaClinica({navigation}) {
           <CampoItem valor="Obeservacion"/>
           <TextInput placeholder='Escriba alguna observacion extra' style={styles.observacion}/>
           <Text/>
-          <CampoItem valor="Doctor Encargado"/>
-          <CampoTexto etiqueta='Dr. Encargado'/>
+          <Provider>
+            <Portal>
+              <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+                <Lista></Lista>
+              </Modal>
+            </Portal>
+              <Button  onPress={showModal}>
+                Doctor Encargado
+              </Button>
+          </Provider>
           <Text/>
-          <CampoItem valor="Cliente"/>
-          <CampoTexto etiqueta='Paciente'/>
+          <Provider>
+            <Portal>
+              <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+                <Lista></Lista>
+              </Modal>
+            </Portal>
+              <Button  onPress={showModal}>
+                Paciente
+              </Button>
+          </Provider>
           <Text/>
-          <CampoItem valor="Producto"/>
-          <CampoTexto etiqueta='Tipo de estudios'/>
+          <Provider>
+            <Portal>
+              <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+                <Lista></Lista>
+              </Modal>
+            </Portal>
+              <Button  onPress={showModal}>
+                Producto
+              </Button>
+          </Provider>
           <Boton mode="contained" >Guardar</Boton>
         </View>}
         {tabla && <Tabla cabecera={data.tableHead} datos={data.tableData}/>}
@@ -115,5 +145,5 @@ const styles = StyleSheet.create({
     button:{
       flexDirection: 'column',
       alignItems: 'center'
-    }
+    },
 });
