@@ -7,8 +7,12 @@ import { HomeScreen,
     Pacientes,
     Turnos,
     FichaClinica,
-    Login
+    Login,
+    NuevoPaciente,//para la administracion de pacientes
+    EditarPaciente,//para la administracion de pacientes
+    EliminarPaciente,//para la administracion de pacientes
 } from './src/screen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +25,9 @@ function App() {
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Turnos" component={Turnos} />
             <Stack.Screen name="FichaClinica" component={FichaClinica} />
+            <Stack.Screen name="NuevoPaciente" component={NuevoPaciente} />
+            <Stack.Screen name="EliminarPaciente" component={EliminarPaciente} />
+            <Stack.Screen name="EditarPaciente" component={EditarPaciente} />
         </Stack.Navigator>
     </NavigationContainer>
   );
