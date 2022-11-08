@@ -24,8 +24,23 @@ const peticionesGet = async (endpoint,datos)=>{
     return respuesta;
 }
 
-const peticionesPost = (endpoint,datos)=>{
+const peticionesPost = async (endpoint,datos)=>{
+    const options = {
+        method: 'POST',
+        url: `${URL_BASE+endpoint}`,
+        data: datos
+    };
+    let respuesta="";
+    try {
 
+        respuesta = await axios.request(options);
+        respuesta = await respuesta.data
+        respuesta = {"cod":"0","respuesta":respuesta};
+    } catch (e) {
+        console.error(e)
+        respuesta = {"cod":"1"}
+    }
+    return respuesta;
 }
 
 

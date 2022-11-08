@@ -13,9 +13,14 @@ import { CampoItem,
 import { TextInput, SegmentedButtons,  Modal, Portal, Button, Provider, Checkbox} from 'react-native-paper';
 
 export default function FichaClinica({navigation}) {
-  const [data, setData] = useState({});
-  const [form,setForm] = useState(false);
-  const [tabla,setTabla] = useState(false);
+
+    const [pacientes, setPaciente] = useState([]);
+    const [productos, setProducto] = useState([]);
+    const [data, setData] = useState({});
+    const [form,setForm] = useState(false);
+    const [tabla,setTabla] = useState(false);
+    const [pacientes, setPaciente] = useState([]);
+    const [productos, setProducto] = useState([]);
   const mostrarForm = (valor)=>{ setForm(valor); if (tabla && valor){mostrarTabla(false)}};
   const mostrarTabla = (valor)=>{ setTabla(valor); if (form && valor ){mostrarForm(false)}};
   const [value, setValue] = useState('');
@@ -36,47 +41,82 @@ export default function FichaClinica({navigation}) {
   const hideModal = () => setVisible(false);
   const containerStyle = {backgroundColor: 'white', padding: 20};
 
-  const obtenerDatos = async ()=>{
-      let temp = await peticionesGet('fichaClinica',{});
-      const cabecera = ["Fecha","Motivo","Diagnositico","Observacion"];
-      let datos = temp.respuesta.lista.map( (fila)=> { return [fila.fechaHora,fila.motivoConsulta,fila.diagnostico,fila.observacion]});
-      setData({tableHead:cabecera,tableData:datos});
-  }
-  useEffect(
-      ()=>{
-          obtenerDatos()
-
-      },[]
-  )
 
 
-  return (
-    <View style={{flex:1, backgroundColor: tema.fondo.color}}>
-      <CampoTitulo valor="Ficha Clinica"/>
-      <Text/>
-      <View style={styles.button}>
-        <SegmentedButtons
-          value={value}
-          onValueChange={boton}
-          buttons={[
-            {
-              value: 'nuevo',
-              label: 'Nuevo',
-            },
-            {
-              value: 'panel',
-              label: 'Lista',
-            },
-            {
-              value: 'volver',
-              label: 'Volver',
-            },
-          ]}
-        />
-      </View>
-      <Text/>
-      <ScrollView>
-        {form && <View  style={styles.container}>
+    const obtenerDatos = async ()=>{
+        // OBTENER LOS DATOS PARA TABLA DE FICHA CLINICA
+        let temp = await peticionesGet('fichaClinica',{});
+        const cabecera = ["Fecha","Motivo","Diagnositico","Observacion"];
+        let datos = temp.respuesta.lista.map( (fila)=> { return [fila.fechaHora,fila.motivoConsulta,fila.diagnostico,fila.observacion]});
+        setData({tableHead:cabecera,tableData:datos});
+
+        // OBTENER DATOS DE PACIENTES
+        temp = await peticionesGet("persona",{orderBy:"apellido"})
+        setPaciente(temp.respuesta.lista);
+        // OBTENER DATOS DE PRODUCTOS
+        temp = await peticionesGet("presentacionProducto",{})
+        setProducto(temp.respuesta.lista);
+     }
+
+        
+
+ 
+
+    useEffect(
+        ()=>{
+            obtenerDatos()
+        },[]
+    )
+
+
+
+    return (
+        <View style={{flex:1, backgroundColor: tema.fondo.color}}>
+          <CampoTitulo valor="Ficha Clinica"/>
+          <Text/>
+          <View style={styles.button}>
+            <SegmentedButtons
+              value={value}
+              onValueChange={boton}
+              buttons={[
+                {
+                  value: 'nuevo',
+                  label: 'Nuevo',
+                },
+                {
+                  value: 'panel',
+                  label: 'Lista',
+                },
+                {
+                  value: 'volver',
+                  label: 'Volver',
+                },
+              ]}
+            />
+          </View>
+            <ScrollView>
+                {form && <FormularioFichaClinica pacientes={pacientes} productos={productos}></FormularioFichaClinica>}
+                {tabla && <Tabla cabecera={data.tableHead} datos={data.tableData}/>}
+            </ScrollView>
+        </View>
+    );
+}
+
+function FormularioFichaClinica({pacientes,productos}){
+
+    const [datosForm,setDatosForm]= useState({})
+    const guardarDatos = (indice,valor)=>{
+        let temp = datosForm;
+        temp[indice]=valor
+        console.log(temp);
+        setDatosForm({...temp ,...datosForm})
+        console.log(datosForm)
+    }
+
+    const enviarForm = async ()=>{
+        
+    }
+    return ( <View  style={styles.container}>
           <CampoSubTitulo valor="Registro de una Ficha Clinica"/>
           <Text/>
           <CampoItem valor="Motivo de Consulta"/>
@@ -121,11 +161,7 @@ export default function FichaClinica({navigation}) {
               </Button>
           </Provider>
           <Boton mode="contained" >Guardar</Boton>
-        </View>}
-        {tabla && <Tabla cabecera={data.tableHead} datos={data.tableData}/>}
-      </ScrollView>
-    </View>
-  );
+    </View> )
 }
 
 const styles = StyleSheet.create({
