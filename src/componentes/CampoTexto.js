@@ -6,8 +6,10 @@ import { Text as Texto } from 'react-native'
 
 export default function CampoTexto(parametros) {
     const valor = (typeof parametros.valor !== "undefined")?parametros.valor:"";
+    const id = (typeof parametros.id !=="undefined")?parametros.id:"test";
+    // console.log("valor:"+valor)
   return (
-    <Input placeholder={parametros.etiqueta} style={styles.textInput} onChange={(valor)=>{ if(typeof parametros.eventoChange !== "undefined"){parametros.eventoChange(valor)}}} value={valor}/>
+    <Input placeholder={parametros.etiqueta} style={styles.textInput} onChangeText={(valorTexto)=>{ if(typeof parametros.eventoChange !== "undefined"){parametros.eventoChange(valorTexto)}}} value={valor}/>
   )
 }
 
