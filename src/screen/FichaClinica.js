@@ -19,8 +19,6 @@ export default function FichaClinica({navigation}) {
     const [data, setData] = useState({});
     const [form,setForm] = useState(false);
     const [tabla,setTabla] = useState(false);
-    const [pacientes, setPaciente] = useState([]);
-    const [productos, setProducto] = useState([]);
   const mostrarForm = (valor)=>{ setForm(valor); if (tabla && valor){mostrarTabla(false)}};
   const mostrarTabla = (valor)=>{ setTabla(valor); if (form && valor ){mostrarForm(false)}};
   const [value, setValue] = useState('');
@@ -35,15 +33,7 @@ export default function FichaClinica({navigation}) {
   }
 
   const modalprueba = ["Fecha","Motivo","Diagnositico","Observacion"];
-  const [visible, setVisible] = useState(false);
-
-  const showModal = () => setVisible(true);
-  const hideModal = () => setVisible(false);
-  const containerStyle = {backgroundColor: 'white', padding: 20};
-
-
-
-    const obtenerDatos = async ()=>{
+     const obtenerDatos = async ()=>{
         // OBTENER LOS DATOS PARA TABLA DE FICHA CLINICA
         let temp = await peticionesGet('fichaClinica',{});
         const cabecera = ["Fecha","Motivo","Diagnositico","Observacion"];
@@ -58,16 +48,11 @@ export default function FichaClinica({navigation}) {
         setProducto(temp.respuesta.lista);
      }
 
-        
-
- 
-
     useEffect(
         ()=>{
             obtenerDatos()
         },[]
     )
-
 
 
     return (
@@ -112,9 +97,11 @@ function FormularioFichaClinica({pacientes,productos}){
         setDatosForm({...temp ,...datosForm})
         console.log(datosForm)
     }
-
+    const showModal = () => setVisible(true);
+    const hideModal = () => setVisible(false);
+    const [visible, setVisible] = useState(false);
     const enviarForm = async ()=>{
-        
+
     }
     return ( <View  style={styles.container}>
           <CampoSubTitulo valor="Registro de una Ficha Clinica"/>
@@ -163,7 +150,7 @@ function FormularioFichaClinica({pacientes,productos}){
           <Boton mode="contained" >Guardar</Boton>
     </View> )
 }
-
+const containerStyle = {backgroundColor: 'white', padding: 20};
 const styles = StyleSheet.create({
     container:{
       paddingLeft: 10,
