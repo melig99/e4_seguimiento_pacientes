@@ -9,14 +9,26 @@ import { CampoItem,
   Boton,
   Tabla
 } from '../componentes';
-import { TextInput } from 'react-native-paper';
+import { TextInput, SegmentedButtons,  Modal, Portal, Text, Button, Provider} from 'react-native-paper';
 
 export default function FichaClinica({navigation}) {
   const [data, setData] = useState({});
   const [form,setForm] = useState(false);
   const [tabla,setTabla] = useState(false);
-  const mostrarForm = (valor)=>{ setForm(valor)}
-  const mostrarTabla = (valor)=>{ setTabla(valor)}
+  const mostrarForm = (valor)=>{ setForm(valor); if (tabla && valor){mostrarTabla(false)}};
+  const mostrarTabla = (valor)=>{ setTabla(valor); if (form && valor ){mostrarForm(false)}};
+  const [value, setValue] = useState('');
+  const boton = (valor)=>{
+    if(valor == "nuevo"){
+      mostrarForm(!form);
+    }else if(valor == "panel"){
+      mostrarTabla(!tabla);
+    }else if(valor == "volver"){
+      navigation.reset({ index: 0, routes: [{ name: 'Home' }], });
+    }
+  }
+
+  const modalprueba = ["Fecha","Motivo","Diagnositico","Observacion"];
 
   const obtenerDatos = async ()=>{
       let temp = await peticionesGet('fichaClinica',{});
@@ -36,8 +48,27 @@ export default function FichaClinica({navigation}) {
     <View style={{flex:1, backgroundColor: tema.fondo.color}}>
       <CampoTitulo valor="Ficha Clinica"/>
       <Text/>
-      <Boton mode="contained"  onPress ={ ()=>{mostrarForm(!form)}} > Nuevo Registro</Boton>
-      <Boton mode="contained"  onPress ={ ()=>{mostrarTabla(!tabla)}} > Lista </Boton>
+      <View style={styles.button}>
+        <SegmentedButtons
+          value={value}
+          onValueChange={boton}
+          buttons={[
+            {
+              value: 'nuevo',
+              label: 'Nuevo',
+            },
+            {
+              value: 'panel',
+              label: 'Lista',
+            },
+            {
+              value: 'volver',
+              label: 'Volver',
+            },
+          ]}
+        />
+      </View>
+      <Text/>
       <ScrollView>
         {form && <View  style={styles.container}>
           <CampoSubTitulo valor="Registro de una Ficha Clinica"/>
@@ -63,23 +94,26 @@ export default function FichaClinica({navigation}) {
         </View>}
         {tabla && <Tabla cabecera={data.tableHead} datos={data.tableData}/>}
       </ScrollView>
-      <Boton mode="contained" onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Home' }], })}> Volver</Boton>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
     container:{
-        paddingLeft: 10,
+      paddingLeft: 10,
     },
     observacion: {
-        height: 50,
-        padding: 10,
-        paddingStart: 30,
-        width: '80%',
-        height: 50,
-        marginTop: 20,
-        borderRadius: 10,
-        backgroundColor: 'white',
+      height: 50,
+      padding: 10,
+      paddingStart: 30,
+      width: '80%',
+      height: 50,
+      marginTop: 20,
+      borderRadius: 10,
+      backgroundColor: 'white',
+    },
+    button:{
+      flexDirection: 'column',
+      alignItems: 'center'
     }
 });
