@@ -1,7 +1,8 @@
 import  React,  {useState}  from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text,TextInput, StatusBar,ScrollView,Button,TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, FlatList, StyleSheet, Text,TextInput, StatusBar,ScrollView,Button } from 'react-native';
 import { Boton } from '../../componentes/Boton.js';
 import { PacientesService } from '../../core/Admin_pacientes.js';
+import SelectMultiple from 'react-native-select-multiple'
 import { Formik } from 'formik';
 
 
@@ -42,66 +43,48 @@ const styles = StyleSheet.create({
   });
 
 const admin_pacientes = new PacientesService();
-
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Text style={[styles.title, textColor]}>{item.nombre}, {item.apellido}, {item.email}, {item.cedula}, {item.telefono}, {item.fechaNacimiento}</Text>
-    <CheckBox
-          value={isSelected}
-          onValueChange={setSelection}
-          style={styles.checkbox}
-    />
-  </TouchableOpacity>
-);
-
-
-  const renderItem = ({ item }) => (
-    <Item title={item} />
-  );
+const renderLabel = (label, style) => {
+  return (
+    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      <View style={{marginLeft: 10}}>
+        <Text style={style}>{label}</Text>
+      </View>
+    </View>
+  )
+}
 
 
 export default function EditarPaciente({ navigation }) {
   admin_pacientes.obtener_pacientes();
   const DATA = admin_pacientes.obtener_datos();
-  const [selectedId, setSelectedId] = useState(null);
+  let idPersona = '';
 
+  const lista = DATA.map( ( value )=>{ return `${value.nombre},${value.apellido},${value.idPersona}`} );
 
-  const renderItem = ({ item }) => {
-    const backgroundColor = item.idPersona === selectedId ? "#6e3b6e" : "#f9c2ff";
-    const color = item.idPersona === selectedId ? 'white' : 'black';
+  const state = []
 
-    return (
-      <Item
-        item={item}
-        onPress={ async () => { 
-                          await admin_pacientes.eliminar_paciente( {item} ); 
-                          console.log( {item} )
-                        }
-                }
-        backgroundColor={{ backgroundColor }}
-        textColor={{ color }}
-      />
-    );
-  };  
+  const onSelectionsChange = ( selections, item ) => {
+      state.push( selections);
+      const { value } = item; 
+      const [ nombre, apellido, id] = value.split( ',' )    
+      idPersona = id ;
+      console.log ( idPersona );
 
+  }
 
   return (
 
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>     
-      <SafeAreaView style={styles.container}>
-        <FlatList
-          data={DATA}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index}
-          extraData={selectedId}
-        />    
-      </SafeAreaView>
-      <ScrollView>   
-      <Formik 
-        initialValues={ {email: '', nombre: '', apellido: '', telefono: '', ruc: '', cedula: '', tipoPersona: '', fechaNacimiento: ''} } 
-      >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
-          <View>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>  
+      <SelectMultiple
+        items={lista}
+        selectedItems={state}
+        renderLabel={renderLabel }
+        onSelectionsChange={onSelectionsChange} 
+      />
+      <ScrollView >   
+        <Formik initialValues={ {email: '', nombre: '', apellido: '', telefono: '', ruc: '', cedula: '', tipoPersona: '', fechaNacimiento: ''} } >
+          {({ handleChange, handleBlur, handleSubmit, values }) => (
+          <View style={{ flex: 1,justifyContent: 'center' }}>
             <TextInput
               style={styles.input}
               onChangeText={handleChange('email')}
@@ -125,8 +108,8 @@ export default function EditarPaciente({ navigation }) {
             />
             <TextInput
               style={styles.input}        
-              onChangeText={handleChange('teléfono')}
-              onBlur={handleBlur('teléfono')}
+              onChangeText={handleChange('telefono')}
+              onBlur={handleBlur('telefono')}
               value={values.telefono}
               placeholder="teléfono"
             />
@@ -163,25 +146,30 @@ export default function EditarPaciente({ navigation }) {
             <Button title="Editar Paciente" mode="contained" onPress={
                                                     async () => { 
                                                       
-                                                      await admin_pacientes.agregar_nuevo_paciente(    {"nombre": "Victor",
-                                                      "apellido": "Garcete",
-                                                      "email": "vgar@prueba.com",
-                                                      "telefono": "x4433x",
-                                                      "ruc": "1244432222-3",
-                                                      "cedula": "1244432222-3",
-                                                      "tipoPersona": "FISICA",
-                                                      "fechaNacimiento": "1990-10-30 00:00:00"} );
+                                                      await admin_pacientes.editar_paciente(    
+                                                      {
+                                                        "idPersona"       : idPersona,
+                                                        "nombre"          : values.nombre,
+                                                        "apellido"        : values.apellido,
+                                                        "email"           : values.email,
+                                                        "telefono"        : values.telefono,
+                                                        "ruc"             : values.ruc,
+                                                        "cedula"          : values.cedula,
+                                                        "tipoPersona"     : values.tipoPersona,
+                                                        "fechaNacimiento" : values.fechaNacimiento
+                                                      } );
                                                       const res = admin_pacientes.obtener_respuesta();
                                                       console.log( res );
-                                                      navigation.reset({index: 0,routes: [{ name: 'Paciente' }],})
+                                                      navigation.reset( {index: 0,routes: [{ name: 'Paciente' }],} )
                                                     }
                                                   }/>
-          <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'Paciente' }],})} > Volver</Boton>
             
           </View>
         )}
-      </Formik>
-    </ScrollView> 
+        </Formik>
+      </ScrollView>       
+
+      <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'Paciente' }],})} > Volver</Boton>
   </View>
   );
 }

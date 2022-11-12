@@ -43,9 +43,9 @@ export default function EliminarPaciente({ navigation }) {
       <Item
         item={item}
         onPress={ async () => { 
-                          await admin_pacientes.eliminar_paciente( {item} ); 
-                          console.log( {item} )
-                        }
+                    console.log( await admin_pacientes.eliminar_paciente( item ) );
+                    navigation.reset({index: 0,routes: [{ name: 'Paciente' }],});
+                  }
                 }
         backgroundColor={{ backgroundColor }}
         textColor={{ color }}
