@@ -155,8 +155,8 @@ export default function EditarPaciente({ navigation }) {
                                                         "telefono"        : values.telefono,
                                                         "ruc"             : values.ruc,
                                                         "cedula"          : values.cedula,
-                                                        "tipoPersona"     : values.tipoPersona,
-                                                        "fechaNacimiento" : values.fechaNacimiento
+                                                        "tipoPersona"     : values.tipoPersona.toUpperCase(),
+                                                        "fechaNacimiento" : values.fechaNacimiento + " 00:00:00"
                                                       } );
                                                       const res = admin_pacientes.obtener_respuesta();
                                                       console.log( res );

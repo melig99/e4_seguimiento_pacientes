@@ -99,9 +99,8 @@ export class PacientesService extends React.Component {
   }
   editar_paciente = async  ( datos = {} )=>{
     console.log ( datos );
-    const { idPersona } = datos ;
-    console.log(  this.URL_BASE + `/${idPersona}` );
-    const edicion =  await axios.put( this.URL_BASE + `/${idPersona}`, datos )
+    
+    const edicion =  await axios.put( this.URL_BASE , datos )
                                 .then( ( res )=>{
                                   this.respuesta = res;
                                   console.log ( 'registro editado' )
