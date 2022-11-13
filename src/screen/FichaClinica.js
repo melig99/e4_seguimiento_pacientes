@@ -121,40 +121,31 @@ function FormularioFichaClinica({pacientes,productos}){
         <CampoItem valor="Obeservacion"/>
         <TextInput placeholder='Escriba alguna observacion extra' style={styles.observacion} valor={datosForm.observacion} eventoChange={(valor)=>guardarDatos("observacion",valor)}/>
         <Text/>
+
         <Provider>
             <Portal>
                 <Modal visible={visibleDoctor} onDismiss={()=>{setVisibleDoctor(false)}} contentContainerStyle={containerStyle}>
 
                     <Lista lista={pacientes} identificador="idPersona" dato="nombreCompleto" evento={(valor)=>{guardarDatos("idPersonaD",valor);setVisibleDoctor(false)}}></Lista>
                 </Modal>
-            </Portal>
-            <Boton mode="contained" onPress={()=>setVisibleDoctor(true)}>
-                Doctor Encargado
-            </Boton>
-        </Provider>
-        <Text/>
-        <Provider>
-            <Portal>
                 <Modal visible={visiblePaciente} onDismiss={()=>setVisiblePaciente(false)} contentContainerStyle={containerStyle}>
                     <Lista lista={pacientes} identificador="idPersona" dato="nombreCompleto" evento={(valor)=>{guardarDatos("idPersonaP",valor);setVisiblePaciente(false)}}></Lista>
                 </Modal>
-            </Portal>
-            <Boton mode="contained" onPress={()=>setVisiblePaciente(true)}>
-                Paciente
-            </Boton>
-        </Provider>
-        <Text/>
-        <Provider>
-            <Portal>
                 <Modal visible={visibleProducto} onDismiss={()=>setVisibleProducto(false)} contentContainerStyle={containerStyle}>
                     <Lista lista={productos} identificador="idPresentacionProducto" dato="descripcion" evento={(valor)=>{guardarDatos("idproducto",valor);setVisibleProducto(false)}}></Lista>
                 </Modal>
             </Portal>
+            <Boton mode="contained" onPress={()=>setVisibleDoctor(true)}>
+                Doctor Encargado
+            </Boton>
+            <Boton mode="contained" onPress={()=>setVisiblePaciente(true)}>
+                Paciente
+            </Boton>
             <Boton mode="contained"  onPress={()=>setVisibleProducto(true)}>
                 Producto
             </Boton>
-
         </Provider>
+        <Text/>
         <Boton mode="contained" >Guardar</Boton>
     </View> )
 }
