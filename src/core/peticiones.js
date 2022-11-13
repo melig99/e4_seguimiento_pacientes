@@ -11,6 +11,7 @@ const peticionesGet = async (endpoint,datos)=>{
         url: `${URL_BASE+endpoint}`,
         params: datos
     };
+    console.log(options)
     let respuesta="";
     try {
 

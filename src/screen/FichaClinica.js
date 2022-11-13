@@ -158,12 +158,17 @@ function FiltroFicha(){
 
     const obtenerDatos = async (condicion ={})=>{
         // OBTENER LOS DATOS PARA TABLA DE FICHA CLINICA
-        let temp = await peticionesGet('fichaClinica',condicion);
+        let temp = await peticionesGet('fichaClinica',{"ejemplo":JSON.stringify(condicion)});
         const cabecera = ["Fecha","Motivo","Diagnositico","Observacion", " "];
+        setData({tableHead:cabecera,tableData:[]});
+
         let datos = temp.respuesta.lista.map( (fila)=> { return [fila.fechaHora,fila.motivoConsulta,fila.diagnostico,fila.observacion]});
         // console.log("Datos :"+Object.values(datos))
+        console.log("Datos : "+datos)
         setData({tableHead:cabecera,tableData:datos});
+
     }
+
 
     useEffect(
         ()=>{
@@ -182,14 +187,13 @@ function FiltroFicha(){
     }
 
     const enviarForm = async ()=>{
-        let form = {
-            "idEmpleado":{"idPersona":datosForm.fisio},
-            "idCliente":{"idPersona":datosForm.paciente},
-            "fechaDesdeCadena":datosForm.fech_desde,
-            "fechaHastaCadena":datosForm.fech_hasta,
-            "idTipoProducto":{"idTipoProducto":datosForm.producto},
+        let form = {}
+        if(datosForm.fisio){form["idEmpleado"]={"idPersona":datosForm.fisio}}
+        if(datosForm.paciente){form["idCliente"]={"idPersona":datosForm.paciente}}
+        if(datosForm.fech_desde){form["fechaDesdeCadena"]=datosForm.fech_desde}
+        if(datosForm.fech_hasta){form["fechaHastaCadena"]=datosForm.fech_hasta}
+        if(datosForm.producto){form["idTipoProducto"]={"idTipoProducto":datosForm.producto}}
 
-        }
         console.log(form);
         obtenerDatos(form);
 
