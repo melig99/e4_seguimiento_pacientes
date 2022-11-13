@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { tema } from '../tema/tema'
-import {peticionesGet,peticionesPost} from '../core/peticiones'
+import {peticionesGet,peticionesPost,peticionesPut} from '../core/peticiones'
 import { CampoItem,
     CampoSubTitulo,
     CampoTexto,
@@ -17,15 +17,19 @@ export default function FichaClinica({navigation}) {
     const [pacientes, setPaciente] = useState([]);
     const [productos, setProducto] = useState([]);
     const [form,setForm] = useState(false);
+    const [editar,setEditar] = useState(false);
     const [tabla,setTabla] = useState(false);
-    const mostrarForm = (valor)=>{ setForm(valor); if (tabla && valor){mostrarTabla(false)}};
-    const mostrarTabla = (valor)=>{ setTabla(valor); if (form && valor ){mostrarForm(false)}};
+    const mostrarForm = (valor)=>{ setForm(valor); if (tabla && valor){setTabla(false)};if (editar && valor){setEditar(false)}};
+    const mostrarEditar = (valor)=>{ setEditar(valor); if (tabla && valor){setTabla(false)};if (form && valor ){setForm(false)}};
+    const mostrarTabla = (valor)=>{ setTabla(valor); if (form && valor ){setForm(false)};if (editar && valor){setEditar(false)}};
     const [value, setValue] = useState('');
     const boton = (valor)=>{
         if(valor == "nuevo"){
             mostrarForm(!form);
         }else if(valor == "panel"){
             mostrarTabla(!tabla);
+        }else if(valor == "editar"){
+            mostrarEditar(!editar);
         }else if(valor == "volver"){
             navigation.reset({ index: 0, routes: [{ name: 'Home' }], });
         }
@@ -67,6 +71,11 @@ export default function FichaClinica({navigation}) {
                             style:{backgroundColor:tema.colors.primario,borderColor:"white"}
                         },
                         {
+                            value: 'editar',
+                            label: 'Editar',
+                            style:{backgroundColor:tema.colors.primario,borderColor:"white"}
+                        },
+                        {
                             value: 'volver',
                             label: 'Volver',
                             style:{backgroundColor:tema.colors.primario,borderColor:"white"}
@@ -78,6 +87,7 @@ export default function FichaClinica({navigation}) {
             <ScrollView>
                 {form && <FormularioFichaClinica pacientes={pacientes} productos={productos}></FormularioFichaClinica>}
                 {tabla && <FiltroFicha/>}
+                {editar && <EditarObservacion/>}
             </ScrollView>
         </View>
     );
@@ -154,19 +164,18 @@ function FormularioFichaClinica({pacientes,productos}){
 
 
 function FiltroFicha(){
-    const [data, setData] = useState({tableHead:["Fecha","Motivo","Diagnositico","Observacion", " "],tableData:[]});
+    const [data, setData] = useState({tableHead:["Fecha","Motivo","Diagnositico","Observacion"],tableData:[]});
 
     const obtenerDatos = async (condicion ={})=>{
         // OBTENER LOS DATOS PARA TABLA DE FICHA CLINICA
         let temp = await peticionesGet('fichaClinica',{"ejemplo":JSON.stringify(condicion)});
-        const cabecera = ["Fecha","Motivo","Diagnositico","Observacion", " "];
+        const cabecera = ["Fecha","Motivo","Diagnositico","Observacion"];
         setData({tableHead:cabecera,tableData:[]});
 
         let datos = temp.respuesta.lista.map( (fila)=> { return [fila.fechaHora,fila.motivoConsulta,fila.diagnostico,fila.observacion]});
         // console.log("Datos :"+Object.values(datos))
         console.log("Datos : "+datos)
         setData({tableHead:cabecera,tableData:datos});
-
     }
 
 
@@ -233,6 +242,57 @@ function FiltroFicha(){
         </View>
     );
     }
+
+function EditarObservacion(){
+    const [datosForm,setDatosForm]= useState({})
+    const [fichas,setFichas] = useState([]);
+    const [visibleModal, setVisibleModal] = useState(false);
+    const guardarDatos = (indice,valor)=>{
+        let temp = datosForm;
+        temp[indice]=valor;
+        setDatosForm({...temp ,...datosForm});
+    }
+    const enviarForm = async ()=>{
+        let form = {
+            "idFichaClinica":datosForm.idFichaClinica,
+            "observacion":datosForm.observacion,
+        }
+        console.log(form);
+        let resp = await peticionesPut('fichaClinica',form,'usuario1');
+    }
+    const obtenerDatos = async () => {
+        temp = await peticionesGet("fichaClinica")
+        setFichas(temp.respuesta.lista);
+    }
+    useEffect(
+        ()=>{
+            obtenerDatos()
+        },[]
+    )
+    return (
+        <View>
+            <Provider>
+                <Portal>
+                    <Modal visible={visibleModal} onDismiss={()=>{setVisibleModal(false)}} contentContainerStyle={containerStyle}>
+                        <Lista lista={fichas} identificador="idFichaClinica" dato="diagnostico" evento={(valor)=>{guardarDatos("idFichaClinica",valor);setVisibleModal(false)}}></Lista>
+                    </Modal>
+                </Portal>
+                <Boton mode="contained" onPress={()=>setVisibleModal(true)}>
+                    Seleccionar Ficha
+                </Boton>
+                <CampoItem valor="Obeservacion"/>
+                <TextInput placeholder='Escriba alguna observacion extra' style={styles.observacion} value={datosForm.observacion} onChangeText={(valor)=>guardarDatos("observacion",valor)}/>
+                <Boton mode="contained" onPress={()=>enviarForm()}>
+                    Guardar Observacion
+                </Boton>
+            </Provider>
+
+        </View>
+
+    )
+
+
+}
 
 const containerStyle = {backgroundColor: 'white', padding: 20};
 const styles = StyleSheet.create({
