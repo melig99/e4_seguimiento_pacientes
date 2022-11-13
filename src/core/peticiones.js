@@ -24,12 +24,18 @@ const peticionesGet = async (endpoint,datos)=>{
     return respuesta;
 }
 
-const peticionesPost = async (endpoint,datos)=>{
+const peticionesPost = async (endpoint,datos,usuario="")=>{
+    let cabecera = {
+        'Content-Type': 'application/json',
+    }
+    if(usuario!==""){cabecera['usuario']=usuario}
     const options = {
         method: 'POST',
         url: `${URL_BASE+endpoint}`,
-        data: datos
+        data: datos,
+        headers: cabecera,
     };
+    console.log(options)
     let respuesta="";
     try {
 
@@ -44,4 +50,4 @@ const peticionesPost = async (endpoint,datos)=>{
 }
 
 
-export {peticionesGet};
+export {peticionesGet,peticionesPost};

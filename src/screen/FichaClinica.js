@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { tema } from '../tema/tema'
-import {peticionesGet} from '../core/peticiones'
+import {peticionesGet,peticionesPost} from '../core/peticiones'
 import { CampoItem,
     CampoSubTitulo,
     CampoTexto,
@@ -31,7 +31,6 @@ export default function FichaClinica({navigation}) {
             navigation.reset({ index: 0, routes: [{ name: 'Home' }], });
         }
     }
-
     const modalprueba = ["Fecha","Motivo","Diagnositico","Observacion"];
     const obtenerDatos = async ()=>{
         // OBTENER LOS DATOS PARA TABLA DE FICHA CLINICA
@@ -53,7 +52,6 @@ export default function FichaClinica({navigation}) {
             obtenerDatos()
         },[]
     )
-
 
     return (
         <View style={{flex:1, backgroundColor: tema.fondo.color}}>
@@ -98,14 +96,25 @@ function FormularioFichaClinica({pacientes,productos}){
     const guardarDatos = (indice,valor)=>{
         let temp = datosForm;
         temp[indice]=valor
-        console.log(temp);
+        // console.log(temp);
         setDatosForm({...temp ,...datosForm})
-        console.log(datosForm)
+        // console.log(datosForm)
     }
     const [visiblePaciente, setVisiblePaciente] = useState(false);
     const [visibleDoctor, setVisibleDoctor] = useState(false);
     const [visibleProducto, setVisibleProducto] = useState(false);
     const enviarForm = async ()=>{
+        let form = {
+            "motivoConsulta":datosForm.motivo,
+            "diagnostico":datosForm.diagnostico,
+            "observacion":datosForm.observacion,
+            "idEmpleado":{"idPersona":datosForm.idPersonaD},
+            "idCliente":{"idPersona":datosForm.idPersonaP},
+            "idTipoProducto":{"idTipoProducto":datosForm.idproducto},
+
+        }
+        console.log(form);
+        let resp = await peticionesPost('fichaClinica',form,'usuario1');
 
     }
     return ( <View  style={styles.container}>
@@ -119,7 +128,7 @@ function FormularioFichaClinica({pacientes,productos}){
             valor={datosForm.diagnostico} eventoChange={(valor)=>guardarDatos("diagnostico",valor)}></CampoTexto>
         <Text/>
         <CampoItem valor="Obeservacion"/>
-        <TextInput placeholder='Escriba alguna observacion extra' style={styles.observacion} valor={datosForm.observacion} eventoChange={(valor)=>guardarDatos("observacion",valor)}/>
+        <TextInput placeholder='Escriba alguna observacion extra' style={styles.observacion} value={datosForm.observacion} onChangeText={(valor)=>guardarDatos("observacion",valor)}/>
         <Text/>
 
         <Provider>
@@ -132,7 +141,7 @@ function FormularioFichaClinica({pacientes,productos}){
                     <Lista lista={pacientes} identificador="idPersona" dato="nombreCompleto" evento={(valor)=>{guardarDatos("idPersonaP",valor);setVisiblePaciente(false)}}></Lista>
                 </Modal>
                 <Modal visible={visibleProducto} onDismiss={()=>setVisibleProducto(false)} contentContainerStyle={containerStyle}>
-                    <Lista lista={productos} identificador="idPresentacionProducto" dato="descripcion" evento={(valor)=>{guardarDatos("idproducto",valor);setVisibleProducto(false)}}></Lista>
+                    <Lista lista={productos} identificador="idproducto" dato="descripcion" evento={(valor)=>{guardarDatos("idproducto",valor);setVisibleProducto(false)}}></Lista>
                 </Modal>
             </Portal>
             <Boton mode="contained" onPress={()=>setVisibleDoctor(true)}>
@@ -146,7 +155,7 @@ function FormularioFichaClinica({pacientes,productos}){
             </Boton>
         </Provider>
         <Text/>
-        <Boton mode="contained" >Guardar</Boton>
+        <Boton mode="contained" onPress={()=>enviarForm()}>Guardar</Boton>
     </View> )
 }
 const containerStyle = {backgroundColor: 'white', padding: 20};
