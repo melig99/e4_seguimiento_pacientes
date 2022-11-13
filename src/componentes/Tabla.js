@@ -3,16 +3,17 @@ import { Table, Row, Rows } from 'react-native-table-component';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 
 export default function Tabla({cabecera, datos}) {
+    console.log("Datos :"+Object.values(datos))
+    
   const [data, setData] = useState({tableHead: cabecera,tableData: Object.values(datos)});
-
   return (
 
     <View >
         <Table borderStyle={styles.bordetabla}>
-        <Row data={data.tableHead} style={styles.head} textStyle={styles.headText} />
-        <Rows data={data.tableData} textStyle={styles.text} />
-        </Table> 
-    </View>    
+            <Row data={data.tableHead} style={styles.head} textStyle={styles.headText} />
+            <Rows data={data.tableData} textStyle={styles.text} />
+        </Table>
+    </View>
   );
 }
 

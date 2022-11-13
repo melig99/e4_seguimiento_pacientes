@@ -154,13 +154,14 @@ function FormularioFichaClinica({pacientes,productos}){
 
 
 function FiltroFicha(){
-    const [data, setData] = useState({tableHead:[],tableData:[]});
+    const [data, setData] = useState({tableHead:["Fecha","Motivo","Diagnositico","Observacion", " "],tableData:[]});
 
     const obtenerDatos = async ()=>{
         // OBTENER LOS DATOS PARA TABLA DE FICHA CLINICA
         let temp = await peticionesGet('fichaClinica',{});
         const cabecera = ["Fecha","Motivo","Diagnositico","Observacion", " "];
         let datos = temp.respuesta.lista.map( (fila)=> { return [fila.fechaHora,fila.motivoConsulta,fila.diagnostico,fila.observacion]});
+        // console.log("Datos :"+Object.values(datos))
         setData({tableHead:cabecera,tableData:datos});
     }
 
@@ -182,29 +183,23 @@ function FiltroFicha(){
 
     return(
         <View style={styles.container}>
-            <Provider>
-                <Portal>
-                <Modal visible={visibleFiltro} onDismiss={()=>{setVisibleFiltro}} contentContainerStyle={containerStyle}>
-                    <ScrollView>
-                        <CampoItem valor="Fisioterapeuta"/>
-                        <CampoTexto etiqueta='Ingrese el fisioterapeuta' valor={datosForm.motivo} eventoChange={(valor)=>guardarDatos("motivo",valor)}/>
-                        <CampoItem valor="Paciente"/>
-                        <CampoTexto etiqueta='Ingrese el paciente' valor={datosForm.motivo} eventoChange={(valor)=>guardarDatos("motivo",valor)}/>
-                        <CampoItem valor="Fecha Desde"/>
-                        <CampoTexto etiqueta='Ingrese la fecha desde' valor={datosForm.motivo} eventoChange={(valor)=>guardarDatos("motivo",valor)}/>
-                        <CampoItem valor="Fecha Hasta"/>
-                        <CampoTexto etiqueta='Ingrese la fecha hasta' valor={datosForm.motivo} eventoChange={(valor)=>guardarDatos("motivo",valor)}/>
-                        <CampoItem valor="Tipo de Producto"/>
-                        <CampoTexto etiqueta='Ingrese el producto' valor={datosForm.motivo} eventoChange={(valor)=>guardarDatos("motivo",valor)}/>
-                    </ScrollView>
-                </Modal>
-                </Portal>
-                <Boton mode="contained" onPress={()=>setVisibleFiltro(true)}>
-                    Filtro
-                </Boton>
-            </Provider>
-            <Text/>
-            {/* <Tabla cabecera={data.tableHead} datos={data.tableData}/> */}
+
+            <Boton mode="contained" onPress={()=>setVisibleFiltro(!visibleFiltro)}>
+                Filtro
+            </Boton>
+                {visibleFiltro && <View onDismiss={()=>{setVisibleFiltro(false)}} contentContainerStyle={{backgroundColor: 'white', padding: 20,position:'absolute',top:0}}>
+                    <CampoItem valor="Fisioterapeuta"/>
+                    <CampoTexto etiqueta="Ingrese el fisioterapeuta" valor={datosForm.motivo} eventoChange={(valor)=>guardarDatos("motivo",valor)}/>
+                    <CampoItem valor="Paciente"/>
+                    <CampoTexto etiqueta="Ingrese el paciente" valor={datosForm.motivo} eventoChange={(valor)=>guardarDatos("motivo",valor)}/>
+                    <CampoItem valor="Fecha Desde"/>
+                    <CampoTexto etiqueta='Ingrese la fecha desde' valor={datosForm.motivo} eventoChange={(valor)=>guardarDatos("motivo",valor)}/>
+                    <CampoItem valor="Fecha Hasta"/>
+                    <CampoTexto etiqueta='Ingrese la fecha hasta' valor={datosForm.motivo} eventoChange={(valor)=>guardarDatos("motivo",valor)}/>
+                    <CampoItem valor="Tipo de Producto"/>
+                    <CampoTexto etiqueta='Ingrese el producto' valor={datosForm.motivo} eventoChange={(valor)=>guardarDatos("motivo",valor)}/>
+                </View>}
+            {data.tableData.length > 0 && <Tabla cabecera={data.tableHead} datos={data.tableData}/>}
 
         </View>
     );
