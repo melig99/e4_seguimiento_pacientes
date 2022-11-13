@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { tema } from '../tema/tema'
-import {peticionesGet} from '../core/peticiones'
+import {peticionesGet,peticionesPost} from '../core/peticiones'
 import { CampoItem,
     CampoSubTitulo,
     CampoTexto,
@@ -30,7 +30,6 @@ export default function FichaClinica({navigation}) {
             navigation.reset({ index: 0, routes: [{ name: 'Home' }], });
         }
     }
-
     const modalprueba = ["Fecha","Motivo","Diagnositico","Observacion"];
     const obtenerDatos = async ()=>{
         // OBTENER DATOS DE PACIENTES
@@ -46,7 +45,6 @@ export default function FichaClinica({navigation}) {
             obtenerDatos()
         },[]
     )
-
 
     return (
         <View style={{flex:1, backgroundColor: tema.fondo.color}}>
@@ -91,68 +89,69 @@ function FormularioFichaClinica({pacientes,productos}){
     const guardarDatos = (indice,valor)=>{
         let temp = datosForm;
         temp[indice]=valor
-        console.log(temp);
+        // console.log(temp);
         setDatosForm({...temp ,...datosForm})
-        console.log(datosForm)
+        // console.log(datosForm)
     }
     const [visiblePaciente, setVisiblePaciente] = useState(false);
     const [visibleDoctor, setVisibleDoctor] = useState(false);
     const [visibleProducto, setVisibleProducto] = useState(false);
     const enviarForm = async ()=>{
+        let form = {
+            "motivoConsulta":datosForm.motivo,
+            "diagnostico":datosForm.diagnostico,
+            "observacion":datosForm.observacion,
+            "idEmpleado":{"idPersona":datosForm.idPersonaD},
+            "idCliente":{"idPersona":datosForm.idPersonaP},
+            "idTipoProducto":{"idTipoProducto":datosForm.idproducto},
+
+        }
+        console.log(form);
+        let resp = await peticionesPost('fichaClinica',form,'usuario1');
 
     }
-    return ( 
-        <View  style={styles.container}>
-            <CampoSubTitulo valor="Registro de una Ficha Clinica"/>
-            <Text/>
-            <CampoItem valor="Motivo de Consulta"/>
-            <CampoTexto etiqueta='Ingrese el motivo de su consulta' valor={datosForm.motivo} eventoChange={(valor)=>guardarDatos("motivo",valor)}/>
-            <Text/>
-            <CampoItem valor="Diagnostico"/>
-            <CampoTexto etiqueta='Ingrese el diagnostico'
-                valor={datosForm.diagnostico} eventoChange={(valor)=>guardarDatos("diagnostico",valor)}></CampoTexto>
-            <Text/>
-            <CampoItem valor="Obeservacion"/>
-            <TextInput placeholder='Escriba alguna observacion extra' style={styles.observacion} valor={datosForm.observacion} eventoChange={(valor)=>guardarDatos("observacion",valor)}/>
-            <Text/>
-            <Provider>
-                <Portal>
-                    <Modal visible={visibleDoctor} onDismiss={()=>{setVisibleDoctor(false)}} contentContainerStyle={containerStyle}>
+    return ( <View  style={styles.container}>
+        <CampoSubTitulo valor="Registro de una Ficha Clinica"/>
+        <Text/>
+        <CampoItem valor="Motivo de Consulta"/>
+        <CampoTexto etiqueta='Ingrese el motivo de su consulta' valor={datosForm.motivo} eventoChange={(valor)=>guardarDatos("motivo",valor)}/>
+        <Text/>
+        <CampoItem valor="Diagnostico"/>
+        <CampoTexto etiqueta='Ingrese el diagnostico'
+            valor={datosForm.diagnostico} eventoChange={(valor)=>guardarDatos("diagnostico",valor)}></CampoTexto>
+        <Text/>
+        <CampoItem valor="Obeservacion"/>
+        <TextInput placeholder='Escriba alguna observacion extra' style={styles.observacion} value={datosForm.observacion} onChangeText={(valor)=>guardarDatos("observacion",valor)}/>
+        <Text/>
 
-                        <Lista lista={pacientes} identificador="idPersona" dato="nombreCompleto" evento={(valor)=>{guardarDatos("idPersonaD",valor);setVisibleDoctor(false)}}></Lista>
-                    </Modal>
-                </Portal>
-                <Boton mode="contained" onPress={()=>setVisibleDoctor(true)}>
-                    Doctor Encargado
-                </Boton>
-            </Provider>
-            <Text/>
-            <Provider>
-                <Portal>
-                    <Modal visible={visiblePaciente} onDismiss={()=>setVisiblePaciente(false)} contentContainerStyle={containerStyle}>
-                        <Lista lista={pacientes} identificador="idPersona" dato="nombreCompleto" evento={(valor)=>{guardarDatos("idPersonaP",valor);setVisiblePaciente(false)}}></Lista>
-                    </Modal>
-                </Portal>
-                <Boton mode="contained" onPress={()=>setVisiblePaciente(true)}>
-                    Paciente
-                </Boton>
-            </Provider>
-            <Text/>
-            <Provider>
-                <Portal>
-                    <Modal visible={visibleProducto} onDismiss={()=>setVisibleProducto(false)} contentContainerStyle={containerStyle}>
-                        <Lista lista={productos} identificador="idPresentacionProducto" dato="descripcion" evento={(valor)=>{guardarDatos("idproducto",valor);setVisibleProducto(false)}}></Lista>
-                    </Modal>
-                </Portal>
-                <Boton mode="contained"  onPress={()=>setVisibleProducto(true)}>
-                    Producto
-                </Boton>
+        <Provider>
+            <Portal>
+                <Modal visible={visibleDoctor} onDismiss={()=>{setVisibleDoctor(false)}} contentContainerStyle={containerStyle}>
 
-            </Provider>
-            <Boton mode="contained" >Guardar</Boton>
-        </View> 
-    )
-}
+                    <Lista lista={pacientes} identificador="idPersona" dato="nombreCompleto" evento={(valor)=>{guardarDatos("idPersonaD",valor);setVisibleDoctor(false)}}></Lista>
+                </Modal>
+                <Modal visible={visiblePaciente} onDismiss={()=>setVisiblePaciente(false)} contentContainerStyle={containerStyle}>
+                    <Lista lista={pacientes} identificador="idPersona" dato="nombreCompleto" evento={(valor)=>{guardarDatos("idPersonaP",valor);setVisiblePaciente(false)}}></Lista>
+                </Modal>
+                <Modal visible={visibleProducto} onDismiss={()=>setVisibleProducto(false)} contentContainerStyle={containerStyle}>
+                    <Lista lista={productos} identificador="idproducto" dato="descripcion" evento={(valor)=>{guardarDatos("idproducto",valor);setVisibleProducto(false)}}></Lista>
+                </Modal>
+            </Portal>
+            <Boton mode="contained" onPress={()=>setVisibleDoctor(true)}>
+                Doctor Encargado
+            </Boton>
+            <Boton mode="contained" onPress={()=>setVisiblePaciente(true)}>
+                Paciente
+            </Boton>
+            <Boton mode="contained"  onPress={()=>setVisibleProducto(true)}>
+                Producto
+            </Boton>
+        </Provider>
+        <Text/>
+        <Boton mode="contained" onPress={()=>enviarForm()}>Guardar</Boton>
+    </View> )
+    }
+
 
 function FiltroFicha(){
     const [data, setData] = useState({tableHead:[],tableData:[]});
@@ -209,7 +208,7 @@ function FiltroFicha(){
 
         </View>
     );
-}
+    }
 
 const containerStyle = {backgroundColor: 'white', padding: 20};
 const styles = StyleSheet.create({
