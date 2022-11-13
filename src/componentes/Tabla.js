@@ -3,8 +3,7 @@ import { Table, Row, Rows } from 'react-native-table-component';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 
 export default function Tabla({cabecera, datos}) {
-    console.log("Datos :"+Object.values(datos))
-    
+
   const [data, setData] = useState({tableHead: cabecera,tableData: Object.values(datos)});
   return (
 
