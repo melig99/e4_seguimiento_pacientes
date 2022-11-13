@@ -156,9 +156,9 @@ function FormularioFichaClinica({pacientes,productos}){
 function FiltroFicha(){
     const [data, setData] = useState({tableHead:["Fecha","Motivo","Diagnositico","Observacion", " "],tableData:[]});
 
-    const obtenerDatos = async ()=>{
+    const obtenerDatos = async (condicion ={})=>{
         // OBTENER LOS DATOS PARA TABLA DE FICHA CLINICA
-        let temp = await peticionesGet('fichaClinica',{});
+        let temp = await peticionesGet('fichaClinica',condicion);
         const cabecera = ["Fecha","Motivo","Diagnositico","Observacion", " "];
         let datos = temp.respuesta.lista.map( (fila)=> { return [fila.fechaHora,fila.motivoConsulta,fila.diagnostico,fila.observacion]});
         // console.log("Datos :"+Object.values(datos))
@@ -181,24 +181,49 @@ function FiltroFicha(){
         console.log(datosForm)
     }
 
+    const enviarForm = async ()=>{
+        let form = {
+            "idEmpleado":{"idPersona":datosForm.fisio},
+            "idCliente":{"idPersona":datosForm.paciente},
+            "fechaDesdeCadena":datosForm.fech_desde,
+            "fechaHastaCadena":datosForm.fech_hasta,
+            "idTipoProducto":{"idTipoProducto":datosForm.producto},
+
+        }
+        console.log(form);
+        obtenerDatos(form);
+
+    }
+
     return(
         <View style={styles.container}>
 
             <Boton mode="contained" onPress={()=>setVisibleFiltro(!visibleFiltro)}>
-                Filtro
+                Desplegar
             </Boton>
+            <Text/>
                 {visibleFiltro && <View onDismiss={()=>{setVisibleFiltro(false)}} contentContainerStyle={{backgroundColor: 'white', padding: 20,position:'absolute',top:0}}>
                     <CampoItem valor="Fisioterapeuta"/>
-                    <CampoTexto etiqueta="Ingrese el fisioterapeuta" valor={datosForm.motivo} eventoChange={(valor)=>guardarDatos("motivo",valor)}/>
+                    <CampoTexto etiqueta="Ingrese el fisioterapeuta" valor={datosForm.fisio} eventoChange={(valor)=>guardarDatos("fisio",valor)}/>
+                    <Text/>
                     <CampoItem valor="Paciente"/>
-                    <CampoTexto etiqueta="Ingrese el paciente" valor={datosForm.motivo} eventoChange={(valor)=>guardarDatos("motivo",valor)}/>
+                    <CampoTexto etiqueta="Ingrese el paciente" valor={datosForm.paciente} eventoChange={(valor)=>guardarDatos("paciente",valor)}/>
+                    <Text/>
                     <CampoItem valor="Fecha Desde"/>
-                    <CampoTexto etiqueta='Ingrese la fecha desde' valor={datosForm.motivo} eventoChange={(valor)=>guardarDatos("motivo",valor)}/>
+                    <CampoTexto etiqueta='Ingrese la fecha desde' valor={datosForm.fech_desde} eventoChange={(valor)=>guardarDatos("fech_desde",valor)}/>
+                    <Text/>
                     <CampoItem valor="Fecha Hasta"/>
-                    <CampoTexto etiqueta='Ingrese la fecha hasta' valor={datosForm.motivo} eventoChange={(valor)=>guardarDatos("motivo",valor)}/>
+                    <CampoTexto etiqueta='Ingrese la fecha hasta' valor={datosForm.fech_hasta} eventoChange={(valor)=>guardarDatos("fech_hasta",valor)}/>
+                    <Text/>
                     <CampoItem valor="Tipo de Producto"/>
-                    <CampoTexto etiqueta='Ingrese el producto' valor={datosForm.motivo} eventoChange={(valor)=>guardarDatos("motivo",valor)}/>
+                    <CampoTexto etiqueta='Ingrese el producto' valor={datosForm.producto} eventoChange={(valor)=>guardarDatos("producto",valor)}/>
+                    <Text/>
+                    <Boton mode="contained" onPress={()=>enviarForm()}>
+                        Filtrar
+                    </Boton>
                 </View>}
+            <Text/>
+            <Text/>
             {data.tableData.length > 0 && <Tabla cabecera={data.tableHead} datos={data.tableData}/>}
 
         </View>
