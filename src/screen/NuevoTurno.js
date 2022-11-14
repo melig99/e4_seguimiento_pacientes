@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, FlatList, StyleSheet, StatusBar, TouchableOpacity, Platform, Button } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { Boton } from '../componentes/Boton.js';
+import { Boton } from '../componentes';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { ReservasService } from '../core/Admin_reservas.js';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -46,7 +46,7 @@ export default function NuevoTurno({navigation}) {
         fDateFinal = tempDate.getFullYear().toString()+'0'+tempDate.getMonth() + '0' + tempDate.getDate()
     }
     if(tempDate.getMonth()<10 && tempDate.getDate()>9){
-        fDateFinal = tempDate.getFullYear().toString()+  tempDate.getMonth().toString() + '0' + tempDate.getDate().toString() 
+        fDateFinal = tempDate.getFullYear().toString()+  tempDate.getMonth().toString() + '0' + tempDate.getDate().toString()
     }
     if(tempDate.getMonth()>10 && tempDate.getDate()<10){
         fDateFinal = tempDate.getFullYear().toString() + tempDate.getMonth().toString()+ '0'+ tempDate.getDate().toString()
@@ -58,7 +58,7 @@ export default function NuevoTurno({navigation}) {
         fTimeFinal = '0'+tempDate.getHours() + '0' + tempDate.getMinutes()
     }
     if(tempDate.getMinutes()<10 && tempDate.getHours()>9){
-        fTimeFinal = tempDate.getHours().toString() + '0' + tempDate.getMinutes().toString() 
+        fTimeFinal = tempDate.getHours().toString() + '0' + tempDate.getMinutes().toString()
     }
     if(tempDate.getMinutes()>10 && tempDate.getHours()<10){
         fTimeFinal = '0'+tempDate.getHours()+ tempDate.getMinutes()
@@ -68,10 +68,10 @@ export default function NuevoTurno({navigation}) {
 
     let fTime2 = tempDate.getHours().toString()+ tempDate.getMinutes().toString() ;
     if(tempDate.getHours()<10 && tempDate.getMinutes()<10){
-        fTime2 = '0'+tempDate.getHours() + '0' + tempDate.getMinutes() 
+        fTime2 = '0'+tempDate.getHours() + '0' + tempDate.getMinutes()
     }
     if(tempDate.getMinutes()<10 && tempDate.getHours()>9){
-        fTime2 = tempDate.getHours().toString() + '0' + tempDate.getMinutes().toString() 
+        fTime2 = tempDate.getHours().toString() + '0' + tempDate.getMinutes().toString()
     }
     if(tempDate.getMinutes()>10 && tempDate.getHours()<10){
         fTime2 = '0'+tempDate.getHours().toString() + tempDate.getMinutes().toString()
@@ -96,19 +96,19 @@ export default function NuevoTurno({navigation}) {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Nueva Reserva{'\n'}</Text>
         <Text>Cliente:</Text>
-        <SelectList 
+        <SelectList
         //onSelect={() => alert(selected)}
-        data={DATA} 
+        data={DATA}
         setSelected={setSelected}
-        defaultOption={{ key:'0', value:'Seleccione al cliente' }} 
+        defaultOption={{ key:'0', value:'Seleccione al cliente' }}
         />
         <Text/>
         <Text>Fisioterapeuta:</Text>
-        <SelectList 
+        <SelectList
         //onSelect={() => alert(selected2)}
-        data={EMPLEADOS} 
+        data={EMPLEADOS}
         setSelected={setSelected2}
-        defaultOption={{ key:'1', value:'Seleccione al empleado' }} 
+        defaultOption={{ key:'1', value:'Seleccione al empleado' }}
         />
         <Text/>
 
@@ -117,7 +117,7 @@ export default function NuevoTurno({navigation}) {
 
         <TouchableOpacity><Button title='Seleccione la hora' onPress={() => showMode('time')}>Fecha desde</Button></TouchableOpacity>
         <Text>{'\n'}Hora seleccionada: {text2}{'\n'}</Text>
-        
+
         {show && (
         <DateTimePicker
         testID='dateTimePicker'
@@ -129,8 +129,8 @@ export default function NuevoTurno({navigation}) {
         onChange={onChange}
         />)}
 
-        
-        <Button title="Agendar reserva" mode="contained" onPress={async () => { 
+
+        <Button title="Agendar reserva" mode="contained" onPress={async () => {
 
                                                     admin_reservas.nueva_reserva(    {
                                                         "fechaCadena": fechaFinal,
@@ -149,7 +149,7 @@ export default function NuevoTurno({navigation}) {
                                                 }/>
         <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'Turnos' }],})} > Volver</Boton>
     </View>
-    
+
   );
 }
 
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
       marginHorizontal: 20,
     },
     view_costado :{
-      height: 150, 
+      height: 150,
       width: 300,
       flex: 1
     },
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
       margin: 5,
       borderColor:'009688',
       backgroundColor:'white'
-  
+
     },
     itemP1: {
       fontSize: 22,
@@ -204,5 +204,5 @@ const styles = StyleSheet.create({
       paddingTop: 15,
       paddingBottom: 15,
     }
-  
+
   });

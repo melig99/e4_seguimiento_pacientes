@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Text, FlatList, StyleSheet, StatusBar, TextInput, TouchableOpacity, Platform } from 'react-native';
-import { Boton } from '../componentes/Boton.js';
+import { Boton } from '../componentes/';
 import { ReservasService } from '../core/Admin_reservas.js';
 import { useState, useEffect } from 'react';
 import { Button } from 'react-native-paper';
@@ -51,7 +51,7 @@ const ListItem = ({ data }) => {
                           "idReserva":data.idReserva,
                           "observacion":obs,
                           "flagAsistio":ass
-                        
+
                         })
                         }> Editar</Button>
         <Button onPress={()=>{admin_reservas.eliminar_turno(data.idReserva)}}>Cancelar</Button>
@@ -99,7 +99,7 @@ export default function Turnos({navigation}) {
     console.log(fDate2);
     setFecha2(fDate2);
     //setShow(false);
-  } 
+  }
   const showMode = (currentMode) =>{
     setShow(true);
     setMode(currentMode);
@@ -123,7 +123,7 @@ export default function Turnos({navigation}) {
       );
     }
   }, [searchText]);
-  
+
   const [searchEmpleado, setSearchEmpleado] = useState('');
 
   useEffect(()=>{
@@ -146,14 +146,14 @@ export default function Turnos({navigation}) {
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      
+
         <TextInput
           placeholder='Buscar por cliente'
           value={searchText}
           style={styles.textInputStyle}
           onChangeText={(t) => setSearchText(t)}
         />
-      
+
       <TextInput
           placeholder='Buscar por empleado'
           value={searchEmpleado}
@@ -186,7 +186,7 @@ export default function Turnos({navigation}) {
         />)}
       </View>
       <Text style={styles.itemP1}>Turnos</Text>
-      <FlatList 
+      <FlatList
           data={list}
           renderItem={({ item }) => <ListItem data={item} />}
           keyExtractor={(item) => item.id}
@@ -194,7 +194,7 @@ export default function Turnos({navigation}) {
       <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'NuevoTurno' }],})} > Realizar reserva</Boton>
       <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'Home' }],})} > Volver</Boton>
     </View>
-    
+
   );
 }
 
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   view_costado :{
-    height: 150, 
+    height: 150,
     width: 300,
     flex: 1
   },
