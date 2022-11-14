@@ -1,6 +1,6 @@
 import  React,  {useState}  from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text,TextInput, StatusBar,ScrollView,Button } from 'react-native';
-import { Boton } from '../../componentes/Boton.js';
+import { Boton } from '../../componentes';
 import { PacientesService } from '../../core/Admin_pacientes.js';
 import SelectMultiple from 'react-native-select-multiple'
 import { Formik } from 'formik';
@@ -65,8 +65,8 @@ export default function EditarPaciente({ navigation }) {
 
   const onSelectionsChange = ( selections, item ) => {
       state.push( selections);
-      const { value } = item; 
-      const [ nombre, apellido, id] = value.split( ',' )    
+      const { value } = item;
+      const [ nombre, apellido, id] = value.split( ',' )
       idPersona = id ;
       console.log ( idPersona );
 
@@ -74,14 +74,14 @@ export default function EditarPaciente({ navigation }) {
 
   return (
 
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>  
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <SelectMultiple
         items={lista}
         selectedItems={state}
         renderLabel={renderLabel }
-        onSelectionsChange={onSelectionsChange} 
+        onSelectionsChange={onSelectionsChange}
       />
-      <ScrollView >   
+      <ScrollView >
         <Formik initialValues={ {email: '', nombre: '', apellido: '', telefono: '', ruc: '', cedula: '', tipoPersona: '', fechaNacimiento: ''} } >
           {({ handleChange, handleBlur, handleSubmit, values }) => (
           <View style={{ flex: 1,justifyContent: 'center' }}>
@@ -100,53 +100,53 @@ export default function EditarPaciente({ navigation }) {
               value={values.nombre}
             />
             <TextInput
-              style={styles.input}        
+              style={styles.input}
               onChangeText={handleChange('apellido')}
               onBlur={handleBlur('apellido')}
               value={values.apellido}
               placeholder="apellido"
             />
             <TextInput
-              style={styles.input}        
+              style={styles.input}
               onChangeText={handleChange('telefono')}
               onBlur={handleBlur('telefono')}
               value={values.telefono}
               placeholder="teléfono"
             />
             <TextInput
-              style={styles.input}        
+              style={styles.input}
               onChangeText={handleChange('ruc')}
               onBlur={handleBlur('ruc')}
               value={values.ruc}
               placeholder="ruc"
-            />    
-                  
+            />
+
             <TextInput
-              style={styles.input}        
+              style={styles.input}
               onChangeText={handleChange('cedula')}
               onBlur={handleBlur('cedula')}
               value={values.cedula}
               placeholder="cedula"
-            />     
+            />
             <TextInput
-              style={styles.input}        
+              style={styles.input}
               onChangeText={handleChange('tipoPersona')}
               onBlur={handleBlur('tipoPersona')}
               value={values.tipoPersona}
               placeholder="tipoPersona"
-            />     
+            />
             <TextInput
-              style={styles.input}        
+              style={styles.input}
               onChangeText={handleChange('fechaNacimiento')}
               onBlur={handleBlur('fechaNacimiento')}
               value={values.fechaNacimiento}
               placeholder="fechaNacimiento: AAAA/MM/DD"
-            />   
+            />
 
             <Button title="Editar Paciente" mode="contained" onPress={
-                                                    async () => { 
-                                                      
-                                                      await admin_pacientes.editar_paciente(    
+                                                    async () => {
+
+                                                      await admin_pacientes.editar_paciente(
                                                       {
                                                         "idPersona"       : idPersona,
                                                         "nombre"          : values.nombre,
@@ -163,11 +163,11 @@ export default function EditarPaciente({ navigation }) {
                                                       navigation.reset( {index: 0,routes: [{ name: 'Paciente' }],} )
                                                     }
                                                   }/>
-            
+
           </View>
         )}
         </Formik>
-      </ScrollView>       
+      </ScrollView>
 
       <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'Paciente' }],})} > Volver</Boton>
   </View>

@@ -23,7 +23,7 @@ function App() {
         <Stack.Screen name="Home" component={HomeScreen} 
         options={{headerShown: false}}/>
         <Stack.Screen name="Paciente" component={Pacientes} 
-        options={{headerShown: false}}/>
+        options={{headerShown: false}}/> 
         <Stack.Screen name="Login" component={Login} 
           options={{headerShown: false}}/>
         <Stack.Screen name="Turnos" component={Turnos} 
@@ -36,12 +36,6 @@ function App() {
          options={{headerShown: false}}/>
         <Stack.Screen name="EditarPaciente" component={EditarPaciente} 
          options={{headerShown: false}}/>
-        <Stack.Screen name="NuevoPaciente" component={NuevoPaciente} 
-          options={{headerShown: false}}/>
-        <Stack.Screen name="EliminarPaciente" component={EliminarPaciente} 
-          options={{headerShown: false}}/>
-        <Stack.Screen name="EditarPaciente" component={EditarPaciente} 
-          options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
