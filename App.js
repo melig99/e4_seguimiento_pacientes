@@ -7,7 +7,8 @@ import { HomeScreen,
     Pacientes,
     Turnos,
     FichaClinica,
-    Login
+    Login,
+    NuevoTurno
 } from './src/screen';
 
 const Stack = createNativeStackNavigator();
@@ -16,16 +17,12 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login" >
-        <Stack.Screen name="Home" component={HomeScreen} 
-        options={{headerShown: false}}/>
-        <Stack.Screen name="Paciente" component={Pacientes} 
-        options={{headerShown: false}}/>
-        <Stack.Screen name="Login" component={Login} 
-          options={{headerShown: false}}/>
-        <Stack.Screen name="Turnos" component={Turnos} 
-        options={{headerShown: false}}/>
-        <Stack.Screen name="FichaClinica" component={FichaClinica}
-        options={{headerShown: false}} />
+        <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="Paciente" component={Pacientes} options={{headerShown: false}}/>
+        <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
+        <Stack.Screen name="Turnos" component={Turnos} options={{headerShown: false}}/>
+        <Stack.Screen name="NuevoTurno" component={NuevoTurno} />
+        <Stack.Screen name="FichaClinica" component={FichaClinica} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
