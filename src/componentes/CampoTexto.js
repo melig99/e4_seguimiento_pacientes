@@ -1,23 +1,15 @@
 import React from 'react'
-import { View, StyleSheet, Text } from 'react-native'
-import { TextInput as Input } from 'react-native-paper'
-import { theme } from '../core/theme'
+import { View, StyleSheet } from 'react-native'
+import { TextInput as Input } from 'react-native'
+import { Text as Texto } from 'react-native'
 
-export default function CampoTexto({ errorText, description, ...props }) {
+
+export default function CampoTexto(parametros) {
+    const valor = (typeof parametros.valor !== "undefined")?parametros.valor:"";
+    const id = (typeof parametros.id !=="undefined")?parametros.id:"test";
+    // console.log("valor:"+valor)
   return (
-    <View style={styles.contenedor}>
-      <Input
-        style={styles.input}
-        selectionColor={theme.colors.primario}
-        underlineColor="transparent"
-        mode="outlined"
-        {...props}
-      />
-      {description && !errorText ? (
-        <Text style={styles.description}>{description}</Text>
-      ) : null}
-      {errorText ? <Text style={styles.error}>{errorText}</Text> : null}
-    </View>
+    <Input placeholder={parametros.etiqueta} style={styles.textInput} onChangeText={(valorTexto)=>{ if(typeof parametros.eventoChange !== "undefined"){parametros.eventoChange(valorTexto)}}} value={valor}/>
   )
 }
 
@@ -26,17 +18,13 @@ const styles = StyleSheet.create({
     width: '100%',
     marginVertical: 12,
   },
-  input: {
-    backgroundColor: theme.colors.surface,
-  },
-  description: {
-    fontSize: 13,
-    color: theme.colors.secondary,
-    paddingTop: 8,
-  },
-  error: {
-    fontSize: 13,
-    color: theme.colors.error,
-    paddingTop: 8,
+  textInput: {
+    padding: 10,
+    paddingStart: 30,
+    width: '80%',
+    height: 50,
+    marginTop: 20,
+    borderRadius: 30,
+    backgroundColor: 'white',
   },
 })
