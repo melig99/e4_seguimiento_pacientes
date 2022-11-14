@@ -12,6 +12,7 @@ import { CampoItem,
 } from '../componentes';
 import { TextInput, SegmentedButtons,  Modal, Portal, Button, Provider, Checkbox} from 'react-native-paper';
 
+
 export default function FichaClinica({navigation}) {
 
     const [pacientes, setPaciente] = useState([]);
