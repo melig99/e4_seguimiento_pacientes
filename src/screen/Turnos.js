@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { View, Text, FlatList, StyleSheet, StatusBar, TextInput, TouchableOpacity, Platform } from 'react-native';
 import { Boton } from '../componentes/Boton.js';
-import { ReservasService } from './Admin_reservas.js';
+import { ReservasService } from '../core/Admin_reservas.js';
 import { useState, useEffect } from 'react';
 import { Button } from 'react-native-paper';
-//import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 /*
 constructor(props){
   super(props);
@@ -20,16 +20,40 @@ const admin_reservas = new ReservasService();
 
 
 const ListItem = ({ data }) => {
+  const [obs, setObs] = useState('');
+  const [ass, setAss] = useState('');
   return (
     <TouchableOpacity style={styles.item}>
       <View style={styles.itemInfo}>
         <Text style={styles.itemP2}>ID: {data.idReserva}</Text>
-        <Text style={styles.itemP2}>Empleado: {data.empleado}</Text>
-        <Text style={styles.itemP2}>Cliente: {data.cliente}</Text>
+        <Text style={styles.itemP2}>Empleado: {data.empleado} {data.apellidoEmpleado}</Text>
+        <Text style={styles.itemP2}>Cliente: {data.cliente} {data.apellidoCliente}</Text>
         <Text style={styles.itemP2}>Fecha: {data.fecha}</Text>
         <Text style={styles.itemP2}>Hora inicio: {data.horaInicio}</Text>
         <Text style={styles.itemP2}>Hora fin: {data.horaFin}</Text>
+        <Text style={styles.itemP2}>Asistencia: {data.flagAsistio}</Text>
         <Text style={styles.itemP2}>Obs: {data.observacion}</Text>
+        <Text style={styles.itemP2}>Modificar:</Text>
+        <TextInput
+          placeholder='Observacion'
+          style={styles.textInputStyle}
+          value={obs}
+          onChangeText={text => setObs(text)}
+        />
+        <TextInput
+          placeholder='Asistio? Responda S o N'
+          style={styles.textInputStyle}
+          value={ass}
+          onChangeText={text => setAss(text)}
+        />
+        <Button onPress={()=>
+                        admin_reservas.editar_reserva({
+                          "idReserva":data.idReserva,
+                          "observacion":obs,
+                          "flagAsistio":ass
+                        
+                        })
+                        }> Editar</Button>
         <Button onPress={()=>{admin_reservas.eliminar_turno(data.idReserva)}}>Cancelar</Button>
       </View>
     </TouchableOpacity>
@@ -44,6 +68,42 @@ export default function Turnos({navigation}) {
   admin_reservas.obtener_reservas();
   const DATA = admin_reservas.obtener_datos();
   //console.log(DATA);
+
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+  const [fecha, setFecha] = useState('Empty');
+  const [fecha2, setFecha2] = useState('Empty');
+
+  const onChange = (event, selectedDate)=>{
+    const currentDate = selectedDate || date;
+    //console.log(selectedDate);
+    setShow(Platform.OS === 'default')
+    setDate(currentDate);
+
+    let tempDate = new Date(currentDate);
+    let fDate =   tempDate.getFullYear()+ '-' +(tempDate.getMonth() +1)+'-' + tempDate.getDate();
+    console.log(fDate);
+    setFecha(fDate)
+    //setShow(false);
+  }
+
+  const onChange2 = (event2, selectedDate2)=>{
+    const currentDate = selectedDate2 || date;
+    //console.log(selectedDate);
+    setShow(Platform.OS === 'default')
+    setDate(currentDate);
+
+    let tempDate = new Date(currentDate);
+    let fDate2 =   tempDate.getFullYear()+ '-' +(tempDate.getMonth() +1)+'-' + tempDate.getDate();
+    console.log(fDate2);
+    setFecha2(fDate2);
+    //setShow(false);
+  } 
+  const showMode = (currentMode) =>{
+    setShow(true);
+    setMode(currentMode);
+  }
 
   const [searchText, setSearchText] = useState('');
   const [list, setList] = useState(DATA);
@@ -82,7 +142,7 @@ export default function Turnos({navigation}) {
     }
   }, [searchEmpleado]);
 
-  const [date, setDate] = useState('');
+
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -101,8 +161,29 @@ export default function Turnos({navigation}) {
           onChangeText={(t) => setSearchEmpleado(t)}
       />
       <View style={{flexDirection:"row"}}>
-      <TouchableOpacity><Button>Fecha desde</Button></TouchableOpacity>
-      <TouchableOpacity><Button>Fecha hasta</Button></TouchableOpacity>
+      <TouchableOpacity><Button title='DatePicker' onPress={() => showMode('date')}>Fecha desde</Button></TouchableOpacity>
+
+      {show && (
+        <DateTimePicker
+        testID='dateTimePicker'
+        value={date}
+        mode={mode}
+        is24Hour={true}
+        display='default'
+        onChange={onChange}
+        />)}
+
+<TouchableOpacity><Button title='DatePicker' onPress={() => showMode('date')}>Fecha desde</Button></TouchableOpacity>
+
+{show && (
+        <DateTimePicker
+        testID='dateTimePicker'
+        value={date}
+        mode={mode}
+        is24Hour={true}
+        display='default'
+        onChange={onChange2}
+        />)}
       </View>
       <Text style={styles.itemP1}>Turnos</Text>
       <FlatList 
@@ -110,6 +191,7 @@ export default function Turnos({navigation}) {
           renderItem={({ item }) => <ListItem data={item} />}
           keyExtractor={(item) => item.id}
         />
+      <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'NuevoTurno' }],})} > Realizar reserva</Boton>
       <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'Home' }],})} > Volver</Boton>
     </View>
     

@@ -7,7 +7,8 @@ import { HomeScreen,
     Pacientes,
     Turnos,
     FichaClinica,
-    Login
+    Login,
+    NuevoTurno
 } from './src/screen';
 
 const Stack = createNativeStackNavigator();
@@ -21,6 +22,7 @@ function App() {
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Turnos" component={Turnos} />
             <Stack.Screen name="FichaClinica" component={FichaClinica} />
+            <Stack.Screen name="NuevoTurno" component={NuevoTurno} />
         </Stack.Navigator>
     </NavigationContainer>
   );
