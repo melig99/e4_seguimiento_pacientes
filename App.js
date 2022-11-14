@@ -8,6 +8,7 @@ import { HomeScreen,
     Turnos,
     FichaClinica,
     Login,
+    NuevoTurno
     NuevoPaciente,//para la administracion de pacientes
     EditarPaciente,//para la administracion de pacientes
     EliminarPaciente,//para la administracion de pacientes
@@ -20,22 +21,15 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login" >
-        <Stack.Screen name="Home" component={HomeScreen} 
-        options={{headerShown: false}}/>
-        <Stack.Screen name="Paciente" component={Pacientes} 
-        options={{headerShown: false}}/> 
-        <Stack.Screen name="Login" component={Login} 
-          options={{headerShown: false}}/>
-        <Stack.Screen name="Turnos" component={Turnos} 
-        options={{headerShown: false}}/>
-        <Stack.Screen name="FichaClinica" component={FichaClinica}
-        options={{headerShown: false}} />
-        <Stack.Screen name="NuevoPaciente" component={NuevoPaciente} 
-         options={{headerShown: false}}/>
-        <Stack.Screen name="EliminarPaciente" component={EliminarPaciente} 
-         options={{headerShown: false}}/>
-        <Stack.Screen name="EditarPaciente" component={EditarPaciente} 
-         options={{headerShown: false}}/>
+        <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="Paciente" component={Pacientes} options={{headerShown: false}}/>
+        <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
+        <Stack.Screen name="Turnos" component={Turnos} options={{headerShown: false}}/>
+        <Stack.Screen name="NuevoTurno" component={NuevoTurno} />
+        <Stack.Screen name="FichaClinica" component={FichaClinica} options={{headerShown: false}} />
+        <Stack.Screen name="NuevoPaciente" component={NuevoPaciente} options={{headerShown: false}}/>
+        <Stack.Screen name="EliminarPaciente" component={EliminarPaciente} options={{headerShown: false}}/>
+        <Stack.Screen name="EditarPaciente" component={EditarPaciente} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
