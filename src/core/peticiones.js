@@ -49,6 +49,30 @@ const peticionesPost = async (endpoint,datos,usuario="")=>{
     }
     return respuesta;
 }
+const peticionesPut = async (endpoint,datos,usuario="")=>{
+    let cabecera = {
+        'Content-Type': 'application/json',
+    }
+    if(usuario!==""){cabecera['usuario']=usuario}
+    const options = {
+        method: 'PUT',
+        url: `${URL_BASE+endpoint}`,
+        data: datos,
+        headers: cabecera,
+    };
+    console.log(options)
+    let respuesta="";
+    try {
+
+        respuesta = await axios.request(options);
+        respuesta = await respuesta.data
+        respuesta = {"cod":"0","respuesta":respuesta};
+    } catch (e) {
+        console.error(e)
+        respuesta = {"cod":"1"}
+    }
+    return respuesta;
+}
 
 
-export {peticionesGet,peticionesPost};
+export {peticionesGet,peticionesPost,peticionesPut};
