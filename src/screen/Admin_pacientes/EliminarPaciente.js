@@ -1,6 +1,6 @@
 import  React, { useState } from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar,TouchableOpacity  } from 'react-native';
-import { Boton } from '../../componentes/Boton.js';
+import { Boton } from '../../componentes';
 import { PacientesService } from '../../core/Admin_pacientes.js';
 
 const styles = StyleSheet.create({
@@ -42,7 +42,7 @@ export default function EliminarPaciente({ navigation }) {
     return (
       <Item
         item={item}
-        onPress={ async () => { 
+        onPress={ async () => {
                     console.log( await admin_pacientes.eliminar_paciente( item ) );
                     navigation.reset({index: 0,routes: [{ name: 'Paciente' }],});
                   }
@@ -51,16 +51,16 @@ export default function EliminarPaciente({ navigation }) {
         textColor={{ color }}
       />
     );
-  };  
+  };
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>     
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <SafeAreaView style={styles.container}>
         <FlatList
           data={DATA}
           renderItem={renderItem}
           keyExtractor={(item, index) => index}
           extraData={selectedId}
-        />    
+        />
       </SafeAreaView>
         <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'Paciente' }],})} > Volver</Boton>
     </View>

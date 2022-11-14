@@ -1,7 +1,7 @@
 import  React,  {useState}  from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar,Switch } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
-import { Boton } from '../componentes/Boton.js';
+import { Boton } from '../componentes';
 //import { CampoTexto } from '../componentes/CampoTexto.js';
 import { PacientesService } from '../core/Admin_pacientes.js';
 
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   view_costado :{
-    height: 150, 
+    height: 150,
     width: 300,
     flex: 1
   },
@@ -65,29 +65,29 @@ export default function Pacientes({ navigation }) {
       const list = await admin_pacientes.obtener_profesionales(  );
       setList( list );
       setIsEnabled3(previousState =>!previousState );
-      //console.log( 'mostrando profesionales' );  
+      //console.log( 'mostrando profesionales' );
     }else {
       const list2 = await admin_pacientes.obtener_pacientes(  );
       setList( list2 );
-      //console.log( 'mostrando profesionales' );  
+      //console.log( 'mostrando profesionales' );
       setIsEnabled3(previousState =>!previousState );
-    }   
+    }
   };
   const toggleSwitch1 = async  ( ) => {
     //console.log( 'ordenando por nombre' );
-    if ( filtro_nombre  === false ) { 
+    if ( filtro_nombre  === false ) {
       const list = await admin_pacientes.obtener_pacientes_ordenado_x_nombre(  );
       console.log ( list );
-      setList( list ); 
+      setList( list );
       setIsEnabled1(previousState =>!previousState )
-      //console.log( 'mostrando ordenado ' ); 
+      //console.log( 'mostrando ordenado ' );
     }else {
       const list2 = await admin_pacientes.obtener_pacientes(  );
       setList( list2 );
-      //console.log( 'mostrando pacientes ordenados' );  
-      setIsEnabled1(previousState =>!previousState )      
+      //console.log( 'mostrando pacientes ordenados' );
+      setIsEnabled1(previousState =>!previousState )
     }
-    
+
   };
 
   return (
@@ -100,14 +100,14 @@ export default function Pacientes({ navigation }) {
             placeholder="Buscar"
             keyboardType="text"
           />
-        <Boton style={{flex:0.2}} mode="contained" onPress={ async () =>{ 
+        <Boton style={{flex:0.2}} mode="contained" onPress={ async () =>{
                                                                           console.log( 'obteniendo el paciente' );
                                                                           const list3 = await admin_pacientes.obtener_pacientes_x_nombre( '',paciente_busqueda );
                                                                           setList( list3 );
                                                                           console.log ( list3 );
-                                                                        } 
-                                                            } > Buscar </Boton> 
-      </View>              
+                                                                        }
+                                                            } > Buscar </Boton>
+      </View>
 
       <View style={{ alignItems: 'center',flexDirection: 'row'}} >
         <Text style={{flex: 0.8,fontSize:20 }} > Filtrar por nombre </Text>
@@ -118,7 +118,7 @@ export default function Pacientes({ navigation }) {
           onValueChange={toggleSwitch1}
           value={filtro_nombre}
         ></Switch>
-      </View>       
+      </View>
 
       <View style={{ alignItems: 'center',flexDirection: 'row'}} >
         <Text style={{flex: 0.8,fontSize:20 }} > Mostrar Profesionales </Text>
@@ -129,22 +129,22 @@ export default function Pacientes({ navigation }) {
           onValueChange={toggleSwitch3}
           value={filtro_profesional}
         ></Switch>
-      </View> 
+      </View>
       <View style={{ alignItems: 'center',flexDirection: 'row'}} >
         <Boton style={{flex:0.4}} mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'EditarPaciente' }],})} > Editar </Boton>
         <Boton style={{flex:0.4}} mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'EliminarPaciente' }],})} > Eliminar </Boton>
-      </View>       
+      </View>
       <SafeAreaView style={styles.container}>
         <FlatList
           data={list}
           renderItem={renderItem}
           keyExtractor={(item, index) => index}
-        />    
+        />
       </SafeAreaView>
       <View style={{ alignItems: 'center',flexDirection: 'row'}} >
         <Boton style={{flex:0.6}} mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'NuevoPaciente' }],})} > Agregar Nuevo </Boton>
         <Boton style={{flex:0.3}} mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'Home' }],})} > Volver</Boton>
-      </View>  
+      </View>
     </View>
   );
 }
