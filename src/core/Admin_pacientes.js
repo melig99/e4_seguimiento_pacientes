@@ -75,7 +75,7 @@ export class PacientesService extends React.Component {
   }
 
   agregar_nuevo_paciente = async  ( datos = {} )=>{
-    //console.log ( datos );
+    console.log ( datos );
     await axios.post( this.URL_BASE,  datos )
                 .then( ( res )=>{
                   this.respuesta = res.data;

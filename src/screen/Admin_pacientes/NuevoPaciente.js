@@ -75,10 +75,10 @@ export default function NuevoPaciente ({ navigation }) {
           />
           <TextInput
             style={styles.input}
-            onChangeText={handleChange('teléfono')}
-            onBlur={handleBlur('teléfono')}
+            onChangeText={handleChange('telefono')}
+            onBlur={handleBlur('telefono')}
             value={values.telefono}
-            placeholder="teléfono"
+            placeholder="telefono"
           />
           <TextInput
             style={styles.input}
@@ -107,27 +107,29 @@ export default function NuevoPaciente ({ navigation }) {
             onChangeText={handleChange('fechaNacimiento')}
             onBlur={handleBlur('fechaNacimiento')}
             value={values.fechaNacimiento}
-            placeholder="fechaNacimiento: AAAA/MM/DD"
+            placeholder="fechaNacimiento: AAAA-MM-DD"
           />
 
           <Button title="Agregar Nuevo" mode="contained" onPress={
                                                   async () => {
 
-                                                    await admin_pacientes.agregar_nuevo_paciente(    {"nombre": "Victor",
-                                                    "apellido": "Garcete",
-                                                    "email": "vgar@prueba.com",
-                                                    "telefono": "x4433x",
-                                                    "ruc": "1244432222-3",
-                                                    "cedula": "1244432222-3",
-                                                    "tipoPersona": "FISICA",
-                                                    "fechaNacimiento": "1990-10-30 00:00:00"} );
+                                                    await admin_pacientes.agregar_nuevo_paciente({
+                                                      // "idPersona"       : "",
+                                                      "nombre"          : values.nombre,
+                                                      "apellido"        : values.apellido,
+                                                      "email"           : values.email,
+                                                      "telefono"        : values.telefono,
+                                                      "ruc"             : values.ruc,
+                                                      "cedula"          : values.cedula,
+                                                      "tipoPersona"     : values.tipoPersona.toUpperCase(),
+                                                      "fechaNacimiento" : values.fechaNacimiento + " 00:00:00"
+                                                    } );
                                                     const res = admin_pacientes.obtener_respuesta();
                                                     console.log( res );
                                                     navigation.reset({index: 0,routes: [{ name: 'Paciente' }],})
                                                   }
                                                 }/>
         <Boton mode="contained" onPress={() =>navigation.reset({index: 0,routes: [{ name: 'Paciente' }],})} > Volver</Boton>
-
         </View>
       )}
     </Formik>

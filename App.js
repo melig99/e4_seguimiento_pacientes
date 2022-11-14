@@ -8,7 +8,7 @@ import { HomeScreen,
     Turnos,
     FichaClinica,
     Login,
-    NuevoTurno
+    NuevoTurno,
     NuevoPaciente,//para la administracion de pacientes
     EditarPaciente,//para la administracion de pacientes
     EliminarPaciente,//para la administracion de pacientes
