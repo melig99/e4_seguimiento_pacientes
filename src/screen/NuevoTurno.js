@@ -6,7 +6,7 @@ import { SelectList } from 'react-native-dropdown-select-list';
 import { ReservasService } from '../core/Admin_reservas.js';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useState, useEffect } from 'react';
-
+import {peticionesGet,peticionesPost,peticionesPut} from '../core/peticiones'
 
 const admin_reservas = new ReservasService();
 
@@ -132,7 +132,7 @@ export default function NuevoTurno({navigation}) {
 
         <Button title="Agendar reserva" mode="contained" onPress={async () => {
 
-                                                    admin_reservas.nueva_reserva(    {
+                                                        let form =    {
                                                         "fechaCadena": fechaFinal,
                                                         "horaInicioCadena":hora,
                                                         "horaFinCadena":text3,
@@ -142,8 +142,8 @@ export default function NuevoTurno({navigation}) {
                                                         "idCliente":{
                                                             "idPersona":selected
                                                         }
-                                                    });
-                                                    const res = admin_reservas.obtener_respuesta();
+                                                    };
+                                                    let resp = await peticionesPost('reserva',form,'usuario1');
                                                     console.log( res );
                                                   }
                                                 }/>

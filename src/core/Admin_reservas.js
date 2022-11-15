@@ -34,24 +34,24 @@ export class ReservasService extends React.Component{
       this.obtener_agenda(id);
       return this.agenda;
     }
-    
+
     obtener_respuesta = ( ) => {
 
       return this.respuesta;
     }
     obtener_reservas = async()=>{
         //console.log("obtener.reservas");
-        await axios.get(this.URL_BASE).then(res=>{
+        await axios.get(this.URL_BASE+"?orderBy=fechaHoraCreacion&orderDir=desc").then(res=>{
             //console.log(res.data);
             const{lista}=res.data;
             //console.log(lista);
             for(element of lista) {
-                
+
                 const {idReserva, fecha, horaInicio, horaFin, idCliente:{nombre:cliente}, idEmpleado:{nombre:empleado}, observacion, idCliente:{apellido:apellidoCliente}, idEmpleado:{apellido:apellidoEmpleado}, flagAsistio } = element;
                 //console.log(idReserva, fecha, horaInicio, horaFin);
                 this.datos.push ({ idReserva, fecha, horaInicio, horaFin, cliente, empleado, observacion, apellidoCliente, apellidoEmpleado, flagAsistio});
             };
-            //console.log(this.datos);   
+            //console.log(this.datos);
         });
         //console.log("obtener reservas")
     }
@@ -62,7 +62,7 @@ export class ReservasService extends React.Component{
                   .then(res => {
                     const { lista } = res.data;
                     for (const element of lista) {
-                      const { idPersona:key, nombre:value } = element ;            
+                      const { idPersona:key, nombre:value } = element ;
                       this.personas.push( { key, value} );
                     };
                   });
@@ -75,12 +75,12 @@ export class ReservasService extends React.Component{
                   .then(res => {
                     const { lista } = res.data;
                     for (const element of lista) {
-                      const { idPersona:key, nombre:value } = element ;            
+                      const { idPersona:key, nombre:value } = element ;
                       this.empleados.push( { key, value} );
                     };
                   });
       }
-    
+
       obtener_agenda = async ( idFisioterapeuta )=>{
         var hoy=new Date();
         url='https://equipoyosh.com/stock-nutrinatalia/persona/'+idFisioterapeuta+'/agenda?fecha='+hoy.getFullYear()+(hoy.getMonth()+1)+hoy.getDate();
@@ -91,7 +91,7 @@ export class ReservasService extends React.Component{
                     //const { lista } = res.data;
                     //console.log(res);
                     for (const element of res.data) {
-                      const { fecha, horaInicio, horaFin } = element ;            
+                      const { fecha, horaInicio, horaFin } = element ;
                       this.agenda.push( { fecha, horaFin, horaInicio} );
                     };
                     //console.log(this.agenda);
@@ -107,15 +107,15 @@ export class ReservasService extends React.Component{
             console.log( 'Reserva Creada' );
           })
           .catch( ( error )=> console.log( "ha ocurrido un error -> " + error ) );
-      } 
+      }
 
-    componentDidMount() {  
-        axios.get(`https://jsonplaceholder.typicode.com/posts`)  
-          .then(res => {  
-            const posts = res.data;  
-            this.setState({ posts });  
-          })  
-      }  
+    componentDidMount() {
+        axios.get(`https://jsonplaceholder.typicode.com/posts`)
+          .then(res => {
+            const posts = res.data;
+            this.setState({ posts });
+          })
+      }
       editar_reserva = async  ( datos = {} )=>{
         console.log(datos);
 
@@ -139,6 +139,6 @@ export class ReservasService extends React.Component{
                     .catch( ( error )=> console.log( "ha ocurrido un error --------->" + error ) );
       }
 
-      
 
-}   
+
+}

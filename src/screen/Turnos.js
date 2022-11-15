@@ -5,6 +5,7 @@ import { ReservasService } from '../core/Admin_reservas.js';
 import { useState, useEffect } from 'react';
 import { Button } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {peticionesGet,peticionesPost,peticionesPut} from '../core/peticiones'
 /*
 constructor(props){
   super(props);
@@ -46,8 +47,8 @@ const ListItem = ({ data }) => {
           value={ass}
           onChangeText={text => setAss(text)}
         />
-        <Button onPress={()=>
-                        admin_reservas.editar_reserva({
+    <Button onPress={async ()=>
+                        await peticionesPut('reserva',{
                           "idReserva":data.idReserva,
                           "observacion":obs,
                           "flagAsistio":ass
